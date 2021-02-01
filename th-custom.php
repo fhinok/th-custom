@@ -4,13 +4,13 @@
 
     /*
 
-        Plugin Name: Töpferhaus Custom User Fields
-        Description: Add custom user fields to userprofile and API
+        Plugin Name: Töpferhaus Custom
+        Description: Add custom settings and functions for töpferhaus
         Version: 0.1
         Author: Samuel Will
         Author URI: https://git.willsam.ch/fhinok/th-custom
         License URI:  https://www.gnu.org/licenses/gpl-2.0.html
-        Text Domain:  th-custom-userfields
+        Text Domain:  th-custom
 
     */
 
