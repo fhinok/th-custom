@@ -1,3 +1,3 @@
 # th-custom
 
-Wordpress cusomizations for Wordpress
+Wordpress customizations for Wordpress
