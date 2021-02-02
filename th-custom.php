@@ -36,7 +36,7 @@
         return $allowed_options;
     } );
 
-    
+
     // Create Admin Settings
 
     function th_render_plugin_settings_page() {
@@ -82,5 +82,11 @@
     function roles_callback() {
         echo '<input name="b2b_roles" id="b2b_roles" type="text" value="' . get_option( 'b2b_roles' ) . '" />';
         register_setting( 'th-custom', 'b2b_roles' );
+    }
+
+    // return options and create array from comma separated string
+    function th_return_option( $name ) {
+        $option = preg_split( '/(\s*,*\s*)*,+(\s*,*\s*)*/', get_option( $name ));
+        return $option;
     }
 ?>
