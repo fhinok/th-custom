@@ -89,4 +89,27 @@
         $option = preg_split( '/(\s*,*\s*)*,+(\s*,*\s*)*/', get_option( $name ));
         return $option;
     }
+
+    // Deaktiviere die Verkaufsfunktion für bestimmte Kategorien
+    add_filter( 'woocommerce_is_purchasable', 'th_hide_add_to_cart', 30, 2 );
+    function th_hide_add_to_cart( $return_val, $product ) {
+        // Alle Kategorien, die (noch) nicht zum Verkauf stehen
+        $deactivate_categories = th_return_option( 'categories_disabled' );
+        $b2b_roles = th_return_option( 'b2b_roles' );
+
+        $user = wp_get_current_user();
+        $roles = ( array ) $user->roles;
+
+        // Falls der Kunde ein Stammkunde ist, aktiviere die Verkaufsfunktion
+        if( count(array_intersect( $b2b_roles, $roles ) ) ) {
+            return $return_val;
+        }
+
+        // Ist das Produkt in einer ausgeschlossenen Kategorie, wird der Verkauf deaktiviert
+        if( has_term( $deactivate_categories, 'product_cat', $product->id ) ) {
+            return false;
+        } else {
+            return $return_val;
+        }
+    }
 ?>
