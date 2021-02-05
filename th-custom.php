@@ -107,9 +107,14 @@
 
         // Ist das Produkt in einer ausgeschlossenen Kategorie, wird der Verkauf deaktiviert
         if( has_term( $deactivate_categories, 'product_cat', $product->id ) ) {
+            add_action('woocommerce_single_product_summary', 'message_hide_add_to_cart');
             return false;
         } else {
             return $return_val;
         }
+    }
+
+    function message_hide_add_to_cart () {
+        echo "<p>Dieses Produkt steht momentan im Webshop noch nicht zum Verkauf.</p>";
     }
 ?>
