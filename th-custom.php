@@ -70,13 +70,34 @@
 
     add_action( 'admin_init', 'setup_fields' );
     function setup_fields() {
-        add_settings_field( 'categories_disabled', 'Deaktivierte Kategorien',  'categories_callback', 'th-custom', 'shop_settings');
+        add_settings_field( 'categories_disabled', 'Kategorien für den Verkauf',  'categories_callback', 'th-custom', 'shop_settings');
         add_settings_field( 'b2b_roles', 'B2B Rollen',  'roles_callback', 'th-custom', 'shop_settings');
     }
 
     function categories_callback() {
-        echo '<input name="categories_disabled" id="categories_disabled" type="text" value="' . get_option( 'categories_disabled' ) . '" />';
-        register_setting( 'th-custom', 'categories_disabled' );
+        $categories_disabled = get_option( 'categories_disabled' );
+        if(!$categories_disabled) {
+            $categories_disabled = array();
+        }
+
+
+        $args = array(
+            'taxonomy' => 'product_cat',
+            'orderby' => 'parent',
+            'order' => 'ASC',
+            'hide_empty' => false
+        );
+        var_dump($categories_disabled);
+        foreach( get_categories( $args ) as $category ) :
+            if( $category->parent === 0 ) {
+                ?>
+                <input id="<?php echo $category->slug; ?>" name="categories_disabled[]" type="checkbox" value="<?php echo $category->slug; ?>" <?php checked( in_array( $category->slug, $categories_disabled ) ) ?> />
+                <label for="<?php echo $category->slug; ?>"><?php echo $category->name; ?></label><br />
+                <?php
+            }
+            $category->name;
+        endforeach;
+        register_setting( 'th-custom', 'categories_disabled' );        
     }
 
     function roles_callback() {
@@ -94,7 +115,10 @@
     add_filter( 'woocommerce_is_purchasable', 'th_hide_add_to_cart', 30, 2 );
     function th_hide_add_to_cart( $return_val, $product ) {
         // Alle Kategorien, die (noch) nicht zum Verkauf stehen
-        $deactivate_categories = th_return_option( 'categories_disabled' );
+        $deactivate_categories = get_option( 'categories_disabled' );
+        if(!$deactivate_categories) {
+            $deactivate_categories = array();
+        }
         $b2b_roles = th_return_option( 'b2b_roles' );
 
         $user = wp_get_current_user();
@@ -106,7 +130,7 @@
         }
 
         // Ist das Produkt in einer ausgeschlossenen Kategorie, wird der Verkauf deaktiviert
-        if( has_term( $deactivate_categories, 'product_cat', $product->id ) ) {
+        if( empty($deactivate_categories) || !has_term( $deactivate_categories, 'product_cat', $product->id ) ) {
             add_action('woocommerce_single_product_summary', 'message_hide_add_to_cart');
             return false;
         } else {
@@ -114,6 +138,7 @@
         }
     }
 
+    // Zeige eine Meldung bei ausgeblendeten Kategorien
     function message_hide_add_to_cart () {
         echo "<p>Dieses Produkt steht momentan im Webshop noch nicht zum Verkauf.</p>";
     }
