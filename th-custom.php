@@ -87,7 +87,6 @@
             'order' => 'ASC',
             'hide_empty' => false
         );
-        var_dump($categories_disabled);
         foreach( get_categories( $args ) as $category ) :
             if( $category->parent === 0 ) {
                 ?>
