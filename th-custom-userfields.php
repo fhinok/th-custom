@@ -4,11 +4,12 @@
 
     add_action('show_user_profile', 'th_custom_user_fields');
     add_action('edit_user_profile', 'th_custom_user_fields');
-    add_action( "user_new_form", 'th_custom_user_fields');
+    add_action('user_new_form', 'th_custom_user_fields');
 
     function th_custom_user_fields($user) {
         $customer_number = get_the_author_meta('customer_number', $user->ID);
         $customer_shipping = get_the_author_meta('customer_shipping', $user->ID);
+        $customer_shipping_desc = get_the_author_meta('customer_shipping_desc', $user->ID);
 
 ?>
 
@@ -36,6 +37,16 @@
                     </select>
                 </td>
             </tr>
+            <tr>
+                <th><label for="customer_shipping_desc"><?php esc_html_e( 'Bemerkungen Versand', 'crf' ); ?></label></th>
+                <td>                    
+                    <textarea type="text"
+                        name = "customer_shipping_desc"
+                        id = "customer_shipping_desc"
+                        rows = "2" cols = "30"
+                    ><?php echo esc_attr( $customer_shipping_desc ); ?></textarea>
+                </td>
+            </tr>
         </table>
 
 
@@ -54,6 +65,7 @@
 
         update_user_meta( $user_id, 'customer_number', $_POST['customer_number']);
         update_user_meta( $user_id, 'customer_shipping', $_POST['customer_shipping'] );
+        update_user_meta( $user_id, 'customer_shipping_desc', $_POST['customer_shipping_desc'] );
 
         if ( $_POST['customer_number'] != get_user_meta( $user_id,  'customer_number', true ) ) {
             wp_die( __( 'An error occurred', 'textdomain' ) );
@@ -75,7 +87,7 @@
 
         // register meta fields to API
 
-        $meta = array('customer_number', 'customer_shipping');
+        $meta = array('customer_number', 'customer_shipping', 'customer_shipping_desc');
         foreach ( $meta as $item ) {
             register_rest_field('user', $item, array(
                 'get_callback' => 'th_get_custom_user_api',
