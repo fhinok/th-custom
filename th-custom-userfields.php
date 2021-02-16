@@ -51,12 +51,11 @@
             <tr>
                 <th><label for="crm_contact"><?php esc_html_e( 'Kontaktperson', 'crf' ); ?></label></th>
                 <td>
-                    <input type="text"
+                <textarea type="text"
                         name = "crm_contact"
                         id = "crm_contact"
-                        value = "<?php echo esc_attr( $crm_contact ); ?>"
-                        class = "regular-text"
-                    />
+                        rows = "5" cols = "30"
+                    ><?php echo esc_attr( $crm_contact ); ?></textarea>
                 </td>
             </tr>
         </table>
