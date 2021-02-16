@@ -109,12 +109,7 @@
         </p>
         <p class="woocommerce-form-row woocommerce-form-row--last form-row form-row-last">
             <label for="th_crm_contact"><?php esc_html_e( 'Kontaktperson', 'crf' ); ?></label>
-            <input type="text" 
-                class="woocommerce-Input woocommerce-Input--text input-text" 
-                name="th_crm_contact" id="th_crm_contact" 
-                value="<?php echo esc_attr( $crm_contact ); ?>"
-                disabled="disabled"
-            >
+            <label style='white-space: pre-line; font-weight: 400'><?php echo $crm_contact; ?></label>
         </p>
         <p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
             <label for="th_customer_shipping"><?php esc_html_e( 'Versandoption', 'crf' ); ?></label>                
