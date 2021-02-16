@@ -72,6 +72,62 @@
         }
     }
 
+    add_action( 'woocommerce_edit_account_form', 'th_custom_user_fields_customer' );
+
+    function th_custom_user_fields_customer( ) {
+        $user = $user = wp_get_current_user();
+        $customer_number = get_the_author_meta('customer_number', $user->ID);
+        $customer_shipping = get_the_author_meta('customer_shipping', $user->ID);
+        $customer_shipping_desc = get_the_author_meta('customer_shipping_desc', $user->ID);
+
+?>
+
+        <br><h3>Töpferhaus Infos</h3>
+
+        <table class="woocommerce-EditAccountForm edit-account">
+        <p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
+            <label for="th_customer_number"><?php esc_html_e( 'Kundennummer', 'crf' ); ?></label>
+            <input type="text" 
+                class="woocommerce-Input woocommerce-Input--text input-text" 
+                name="th_customer_number" id="th_customer_number" 
+                value="<?php echo esc_attr( $customer_number ); ?>"
+                disabled="disabled"
+            >
+        </p>
+        <p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
+            <label for="th_customer_shipping"><?php esc_html_e( 'Versandoption', 'crf' ); ?></label>                
+            <select name="th_customer_shipping" id="th_customer_shipping" disabled="disabled">
+                <option value="0" <?php selected( 0 , $customer_shipping ); ?> >Berechnung nach PLZ</option>
+                <option value="1" <?php selected( 1 , $customer_shipping ); ?> >Spezialdeal</option>
+                <option value="2" <?php selected( 2 , $customer_shipping ); ?> >Abholung</option>
+            </select>
+        </p>
+        <p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
+            <label for="customer_shipping_desc"><?php esc_html_e( 'Standardbemerkungen Versand', 'crf' ); ?></label>              
+            <textarea type="text"
+                name = "customer_shipping_desc"
+                id = "customer_shipping_desc"
+                rows = "2" cols = "30"
+            ><?php echo esc_attr( $customer_shipping_desc ); ?></textarea>
+            </p>
+        </table>
+
+    <?php
+        
+    }
+
+    add_action( 'woocommerce_save_account_details', 'th_save_account_fields' );
+    function th_save_account_fields( $user_id ) {
+        if ( !current_user_can( 'edit_user', $user_id ) ) {
+            return false;
+        }
+
+        update_user_meta( $user_id, 'customer_shipping_desc', $_POST['customer_shipping_desc'] );
+
+        if ( $_POST['customer_shipping_desc'] != get_user_meta( $user_id,  'customer_shipping_desc', true ) ) {
+            wp_die( __( 'An error occurred', 'textdomain' ) );
+        }
+    }
 
     // Add to REST API
 
