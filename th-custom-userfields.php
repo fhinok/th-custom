@@ -10,6 +10,7 @@
         $customer_number = get_the_author_meta('customer_number', $user->ID);
         $customer_shipping = get_the_author_meta('customer_shipping', $user->ID);
         $customer_shipping_desc = get_the_author_meta('customer_shipping_desc', $user->ID);
+        $crm_contact = get_the_author_meta('crm_contact', $user->ID);
 
 ?>
 
@@ -47,6 +48,17 @@
                     ><?php echo esc_attr( $customer_shipping_desc ); ?></textarea>
                 </td>
             </tr>
+            <tr>
+                <th><label for="crm_contact"><?php esc_html_e( 'Kontaktperson', 'crf' ); ?></label></th>
+                <td>
+                    <input type="text"
+                        name = "crm_contact"
+                        id = "crm_contact"
+                        value = "<?php echo esc_attr( $crm_contact ); ?>"
+                        class = "regular-text"
+                    />
+                </td>
+            </tr>
         </table>
 
 
@@ -66,6 +78,7 @@
         update_user_meta( $user_id, 'customer_number', $_POST['customer_number']);
         update_user_meta( $user_id, 'customer_shipping', $_POST['customer_shipping'] );
         update_user_meta( $user_id, 'customer_shipping_desc', $_POST['customer_shipping_desc'] );
+        update_user_meta( $user_id, 'crm_contact', $_POST['crm_contact'] );
 
         if ( $_POST['customer_number'] != get_user_meta( $user_id,  'customer_number', true ) ) {
             wp_die( __( 'An error occurred', 'textdomain' ) );
@@ -79,18 +92,28 @@
         $customer_number = get_the_author_meta('customer_number', $user->ID);
         $customer_shipping = get_the_author_meta('customer_shipping', $user->ID);
         $customer_shipping_desc = get_the_author_meta('customer_shipping_desc', $user->ID);
+        $crm_contact = get_the_author_meta('crm_contact', $user->ID);
 
 ?>
 
         <br><h3>Töpferhaus Infos</h3>
 
         <table class="woocommerce-EditAccountForm edit-account">
-        <p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
+        <p class="woocommerce-form-row woocommerce-form-row--first form-row form-row-first">
             <label for="th_customer_number"><?php esc_html_e( 'Kundennummer', 'crf' ); ?></label>
             <input type="text" 
                 class="woocommerce-Input woocommerce-Input--text input-text" 
                 name="th_customer_number" id="th_customer_number" 
                 value="<?php echo esc_attr( $customer_number ); ?>"
+                disabled="disabled"
+            >
+        </p>
+        <p class="woocommerce-form-row woocommerce-form-row--last form-row form-row-last">
+            <label for="th_crm_contact"><?php esc_html_e( 'Kontaktperson', 'crf' ); ?></label>
+            <input type="text" 
+                class="woocommerce-Input woocommerce-Input--text input-text" 
+                name="th_crm_contact" id="th_crm_contact" 
+                value="<?php echo esc_attr( $crm_contact ); ?>"
                 disabled="disabled"
             >
         </p>
@@ -143,7 +166,7 @@
 
         // register meta fields to API
 
-        $meta = array('customer_number', 'customer_shipping', 'customer_shipping_desc');
+        $meta = array('customer_number', 'customer_shipping', 'customer_shipping_desc', 'crm_contact');
         foreach ( $meta as $item ) {
             register_rest_field('user', $item, array(
                 'get_callback' => 'th_get_custom_user_api',
