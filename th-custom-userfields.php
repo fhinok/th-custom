@@ -74,10 +74,10 @@
             return false;
         }
 
-        update_user_meta( $user_id, 'customer_number', $_POST['customer_number']);
-        update_user_meta( $user_id, 'customer_shipping', $_POST['customer_shipping'] );
-        update_user_meta( $user_id, 'customer_shipping_desc', $_POST['customer_shipping_desc'] );
-        update_user_meta( $user_id, 'crm_contact', $_POST['crm_contact'] );
+        update_user_meta( $user_id, 'customer_number', sanitize_text_field( $_POST['customer_number'] ) );
+        update_user_meta( $user_id, 'customer_shipping', sanitize_text_field( $_POST['customer_shipping'] ) );
+        update_user_meta( $user_id, 'customer_shipping_desc', sanitize_textarea_field( $_POST['customer_shipping_desc'] ) );
+        update_user_meta( $user_id, 'crm_contact', sanitize_textarea_field( $_POST['crm_contact'] ) );
 
         if ( $_POST['customer_number'] != get_user_meta( $user_id,  'customer_number', true ) ) {
             wp_die( __( 'An error occurred', 'textdomain' ) );
@@ -139,7 +139,7 @@
             return false;
         }
 
-        update_user_meta( $user_id, 'customer_shipping_desc', $_POST['customer_shipping_desc'] );
+        update_user_meta( $user_id, 'customer_shipping_desc', sanitize_textarea_field( $_POST['customer_shipping_desc'] ) );
 
         if ( $_POST['customer_shipping_desc'] != get_user_meta( $user_id,  'customer_shipping_desc', true ) ) {
             wp_die( __( 'An error occurred', 'textdomain' ) );
@@ -177,7 +177,7 @@
 
     // POST to API
     function th_update_custom_user_api ($value, $user, $field) {
-        sanitize_text_field( update_user_meta($user->ID, $field, $value) );
+        esc_html( update_user_meta($user->ID, $field, $value) );
     }
 
 ?>
