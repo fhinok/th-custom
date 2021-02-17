@@ -177,7 +177,7 @@
 
     // POST to API
     function th_update_custom_user_api ($value, $user, $field) {
-        update_user_meta($user->ID, $field, $value);
+        sanitize_text_field( update_user_meta($user->ID, $field, $value) );
     }
 
 ?>
