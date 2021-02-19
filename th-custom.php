@@ -141,4 +141,16 @@
     function message_hide_add_to_cart () {
         echo "<p>Dieses Produkt steht momentan im Webshop noch nicht zum Verkauf.</p>";
     }
+
+    // Hack für Composite Plugin
+    function th_enqueue($hook) {
+        // Only add to the edit.php admin page.
+        // See WP docs.
+        if ('post.php' !== $hook) {
+            return;
+        }
+        wp_enqueue_script('th_custom_admin_script', plugin_dir_url(__FILE__) . '/admin.js');
+    }
+    
+    add_action('admin_enqueue_scripts', 'th_enqueue');
 ?>
