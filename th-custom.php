@@ -89,6 +89,10 @@
         );
         foreach( get_categories( $args ) as $category ) :
             if( $category->parent === 0 ) {
+                // Liste box_products Kategorie nicht auf
+                if ($category->slug == "box_products" ) {
+                    continue;
+                }
                 ?>
                 <input id="<?php echo $category->slug; ?>" name="categories_disabled[]" type="checkbox" value="<?php echo $category->slug; ?>" <?php checked( in_array( $category->slug, $categories_disabled ) ) ?> />
                 <label for="<?php echo $category->slug; ?>"><?php echo $category->name; ?></label><br />
