@@ -108,12 +108,6 @@
         register_setting( 'th-custom', 'b2b_roles' );
     }
 
-    // return options and create array from comma separated string
-    function th_return_option( $name ) {
-        $option = preg_split( '/(\s*,*\s*)*,+(\s*,*\s*)*/', get_option( $name ));
-        return $option;
-    }
-
     // Deaktiviere die Verkaufsfunktion für bestimmte Kategorien
     add_filter( 'woocommerce_is_purchasable', 'th_hide_add_to_cart', 30, 2 );
     function th_hide_add_to_cart( $return_val, $product ) {
