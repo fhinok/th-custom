@@ -154,6 +154,20 @@
 
 
     // Product Table Autocheck
+    add_filter( 'woocommerce_quantity_input_args', 'th_woocommerce_quantity_input_args', 10, 2 );
+
+    function th_woocommerce_quantity_input_args($args, $product) {
+        $b2b_roles = th_return_option( 'b2b_roles' );
+        $user = wp_get_current_user();
+        $roles = ( array ) $user->roles;
+
+        // Falls der Kunde ein Stammkunde ist, beginnt die Menge bei 0
+        if( count(array_intersect( $b2b_roles, $roles ) ) ) {
+            $args['input_value'] = 0;
+        }
+        return $args;
+    }
+
     function th_custom_srcipts () {
         wp_enqueue_script( 'custom-js', plugin_dir_url(__FILE__) . 'assets/table.js', array( 'jquery' ),'',true );
     }
