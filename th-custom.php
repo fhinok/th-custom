@@ -165,7 +165,6 @@
     function ajax_update_cart() {
 
         $product_id = apply_filters('woocommerce_add_to_cart_product_id', absint($_POST['product_id']));
-        $product = wc_get_product_object($product_id);
         $quantity = filter_var($_POST['quantity'], FILTER_SANITIZE_STRING);
         $passed_validation = apply_filters('woocommerce_add_to_cart_validation', true, $product_id, $quantity);
         $product_status = get_post_status($product_id);
