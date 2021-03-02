@@ -1,17 +1,7 @@
 jQuery(function ($) {
   "use strict",
     $(document).ready(function () {
-      // Easy mode
-      //   $("body").on("change", ".qty", function () {
-      //     var checkbox = $(this).closest("tr").find(".wpt_tabel_checkbox");
-      //     if ($(this).val() >= 1) {
-      //       if (checkbox.prop("checked", false)) {
-      //         checkbox.click();
-      //       }
-      //     } else {
-      //       checkbox.prop("checked", false);
-      //     }
-      //   });
+      get_cart_qty();
 
       //   Ajax Mode
       $("body").on("change", ".qty", function () {
@@ -26,7 +16,7 @@ jQuery(function ($) {
               product_id: product_id,
               quantity: qty,
             },
-            complete: function (res) {
+            complete: (res) => {
               $(document.body).trigger("updated_cart_totals");
               $(document.body).trigger("wc_fragments_refreshed"),
               $(document.body).trigger("wc_fragments_refresh"),
@@ -35,5 +25,24 @@ jQuery(function ($) {
           });
         }, 500)
       });
+
+      // Load qtys from cart to inputs
+      function get_cart_qty() {
+        // Call to php to get cart items
+        $.ajax({
+          type: "POST",
+          url: wc_add_to_cart_params.ajax_url,
+          data: {
+            action: "get_cart_qty"
+          },
+          success: (res) => {
+            Object.keys(res).forEach((key) => {
+              var item = $("[data-product_id="+key+"]").find('.qty'); 
+              item.val( res[key] );
+            })
+          }
+        })
+      }
+
     });
 });

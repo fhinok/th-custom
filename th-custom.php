@@ -203,5 +203,19 @@
 
         wp_die();
     }
+
+    add_filter( 'wp_ajax_get_cart_qty', 'ajax_get_cart_qty' );
+    add_filter( 'wp_ajax_nopriv_get_cart_qty', 'ajax_get_cart_qty' );
+
+    function ajax_get_cart_qty() {
+        $data = array();
+        foreach( WC()->cart->get_cart() as $cart_item_key => $cart_item ){
+            $data[$cart_item['product_id']] = $cart_item['quantity'];
+        }
+        // var_dump( $data );
+        wp_send_json( $data );
+
+        wp_die();
+    }
         
 ?>
