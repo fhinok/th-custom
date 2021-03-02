@@ -43,6 +43,9 @@ jQuery(function ($) {
           }
         })
       }
-
+      // Watch for loaded fragments (which means a filter has been applied)
+      $(document).on('wc_fragments_refreshed', function() {
+        get_cart_qty();
+      });
     });
 });

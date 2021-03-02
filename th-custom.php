@@ -169,7 +169,7 @@
     }
 
     function th_custom_srcipts () {
-        wp_enqueue_script( 'custom-js', plugin_dir_url(__FILE__) . 'assets/table.js', array( 'jquery' ),'',true );
+        wp_enqueue_script( 'custom-js', plugin_dir_url(__FILE__) . 'assets/table.js', array( 'jquery' ), '', true );
     }
     add_action( 'wp_enqueue_scripts', 'th_custom_srcipts' );
 
@@ -217,5 +217,4 @@
 
         wp_die();
     }
-        
 ?>
