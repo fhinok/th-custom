@@ -1,11 +1,14 @@
 jQuery(function ($) {
   "use strict",
     $(document).ready(function () {
-      get_cart_qty();
+      var timeout;
 
-      //   Ajax Mode
       $("body").on("change", ".qty", function () {
-        setTimeout(() => {
+        if (timeout !== undefined ) {
+          clearTimeout( timeout );
+        }
+
+        timeout = setTimeout(() => {
           var qty = $(this).val();
           var product_id = $(this).closest("tr").data("product_id");
           $.ajax({
@@ -23,7 +26,7 @@ jQuery(function ($) {
               $(document.body).trigger("wc_fragment_refresh");
             },
           });
-        }, 500)
+        }, 300)
       });
 
       // Load qtys from cart to inputs
@@ -37,7 +40,7 @@ jQuery(function ($) {
           },
           success: (res) => {
             Object.keys(res).forEach((key) => {
-              var item = $("[data-product_id="+key+"]").find('.qty'); 
+              var item = $("[data-product_id="+key+"]").find('.qty');
               item.val( res[key] );
             })
           }
@@ -45,6 +48,10 @@ jQuery(function ($) {
       }
       // Watch for loaded fragments (which means a filter has been applied)
       $(document).on('wc_fragments_refreshed', function() {
+        get_cart_qty();
+      });
+      $("body").on("removed_from_cart", function() {
+        $(this).find(".qty").val(0);
         get_cart_qty();
       });
     });
