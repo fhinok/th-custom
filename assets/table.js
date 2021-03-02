@@ -16,7 +16,7 @@ jQuery(function ($) {
               product_id: product_id,
               quantity: qty,
             },
-            complete: (res) => {
+            complete: () => {
               $(document.body).trigger("updated_cart_totals");
               $(document.body).trigger("wc_fragments_refreshed"),
               $(document.body).trigger("wc_fragments_refresh"),
