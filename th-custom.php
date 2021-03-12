@@ -168,6 +168,7 @@
         return $args;
     }
 
+    // Product Table Ajax Update
     function th_custom_srcipts () {
         wp_enqueue_script( 'custom-js', plugin_dir_url(__FILE__) . 'assets/table.js', array( 'jquery' ), '', true );
     }
@@ -204,6 +205,7 @@
         wp_die();
     }
 
+    // Warenkorb nach Mengenfelder
     add_filter( 'wp_ajax_get_cart_qty', 'ajax_get_cart_qty' );
     add_filter( 'wp_ajax_nopriv_get_cart_qty', 'ajax_get_cart_qty' );
 
@@ -212,9 +214,43 @@
         foreach( WC()->cart->get_cart() as $cart_item_key => $cart_item ){
             $data[$cart_item['product_id']] = $cart_item['quantity'];
         }
-        // var_dump( $data );
         wp_send_json( $data );
 
         wp_die();
     }
+
+    // Copyright Perlenfischer
+
+    // Hook Admin Produkteseite
+    add_action( 'woocommerce_product_options_general_product_data', 'th_custom_add_custom_product_fields' );
+    function th_custom_add_custom_product_fields() {
+        global $post;
+
+        $input_checkbox = get_post_meta( $post->ID, 'is_copyright', true );
+        if( empty( $input_checkbox ) ) $input_checkbox = '';
+
+        woocommerce_wp_checkbox(array(
+            'id'            => 'is_copyright',
+            'label'         => __('Perlenfischer', 'woocommerce' ),
+            'description'   => __( 'Hat einen Perlenfischer-Stempel', 'woocommerce' ),
+            'value'         => $input_checkbox,
+        ));
+    }
+
+    add_action( 'woocommerce_process_product_meta', 'th_custom_save_custom_product_fields' );
+    function th_custom_save_custom_product_fields($post_id) {
+        $_custom_text_option = isset( $_POST['is_copyright'] ) ? 'yes' : '';
+        update_post_meta( $post_id, 'is_copyright', $_custom_text_option );
+    }
+
+    // Hook Produkteseite
+    add_action( 'woocommerce_product_additional_information', 'th_get_custom_product_fields', 20 );
+    function th_get_custom_product_fields() {
+        global $post;
+        $is_copyright = get_post_meta( $post->ID, 'is_copyright', true );
+        if( $is_copyright ){
+            echo '<em>Diese Karte verwendet urheberrechtlich geschützte Stempel von <a href="https://www.perlenfischerdesign.de" target="_blank">perlenfischer</a>.</em>';
+        } 
+    }
+    
 ?>
