@@ -1,20 +1,36 @@
 .variations_in_loop {
-    order: 3;
-    display: flex;
-    flex-flow: row wrap;
-    /* justify-content: center;
     position: absolute;
-    bottom: 140px;
-    left: 180px;
-    width: 100%; */
+    bottom: 150px;
+    top: 0;
+    right: 0;
+    width: 52px;
+    overflow-y: scroll;
+    /* background-color: rgba(240, 240, 240, .7); */
 }
 
 .variations_in_loop_thumbnail {
-    width: 21%;
-    margin: 0 1% 10px 0;
+    width: 90%;
+    margin: 0 2.5% -7px 5%;
+    position: relative;
+    right: 0px;
     cursor: pointer;
 }
 
 .variations_in_loop_thumbnail.active {
     border: 1px solid #1babe5!important;
+}
+
+/* width */
+.variations_in_loop::-webkit-scrollbar {
+    width: 5px;
+}
+
+/* Track */
+.variations_in_loop::-webkit-scrollbar-track {
+background: none;
+}
+
+/* Handle */
+.variations_in_loop::-webkit-scrollbar-thumb {
+background: #888;
 }
