@@ -2,11 +2,17 @@
     order: 3;
     display: flex;
     flex-flow: row wrap;
+    /* justify-content: center;
+    position: absolute;
+    bottom: 140px;
+    left: 180px;
+    width: 100%; */
 }
 
 .variations_in_loop_thumbnail {
     width: 21%;
     margin: 0 1% 10px 0;
+    cursor: pointer;
 }
 
 .variations_in_loop_thumbnail.active {
