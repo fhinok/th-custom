@@ -1,0 +1,14 @@
+.variations_in_loop {
+    order: 3;
+    display: flex;
+    flex-flow: row wrap;
+}
+
+.variations_in_loop_thumbnail {
+    width: 21%;
+    margin: 0 1% 10px 0;
+}
+
+.variations_in_loop_thumbnail.active {
+    border: 1px solid #1babe5!important;
+}

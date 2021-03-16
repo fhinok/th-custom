@@ -18,6 +18,7 @@
 
     require( 'th-custom-userfields.php' );
     require( 'th-no-mail-required.php' );
+    require( 'th-variations-in-loop.php' );
 
     // Manualy whitelist options because there was a bug
     $sections = array(
