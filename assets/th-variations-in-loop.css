@@ -3,21 +3,26 @@
     bottom: 150px;
     top: 0;
     right: 0;
-    width: 52px;
-    overflow-y: scroll;
-    /* background-color: rgba(240, 240, 240, .7); */
+    width: 54px;
+    padding: 6px 5px 0 14px;
+    overflow-y: auto;
+    background: linear-gradient(to left, rgba(247,245,240, 1) 20%, rgba(247,245,240, .8) 50%, rgba(247,245,240, 0));
+    /* backdrop-filter: blur(1px); */
 }
 
 .variations_in_loop_thumbnail {
-    width: 90%;
-    margin: 0 2.5% -7px 5%;
+    width: 88%;
+    margin: 0 0 -3px 7%;
     position: relative;
     right: 0px;
     cursor: pointer;
+    box-shadow: -2px 1px 3px rgba(51, 51, 51, .4);
 }
 
 .variations_in_loop_thumbnail.active {
     border: 1px solid #1babe5!important;
+    box-shadow: -2px 1px 1px rgba(51, 51, 51, .4);
+    box-shadow: -2px 1px 3px rgba(17, 103, 138, 0.6);
 }
 
 /* width */
