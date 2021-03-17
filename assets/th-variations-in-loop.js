@@ -7,11 +7,15 @@ jQuery(function ($) {
 
         // Richtige Variante Laden bei Klick
         $('.variations_in_loop_thumbnail').on('click', function() {
-            var variation_attribute = $(this).data( 'variation-attribute' );
-            var old_url = $(this).closest( '.product' ).find('a').attr('href');
-            old_url = old_url.replace(/([?]?attribute_pa_ausfuehrung=)+(\w+)/g, '');
+            var variation_attributes = $(this).data( 'variation-attributes' );
+            var variation_url = "";
+            Object.keys(variation_attributes).forEach( function( key ) {
+                variation_url += "?"+key+"="+variation_attributes[key];
+            })
+
+            var product_url = $(this).data( 'product-url' );
             if ( $(this).hasClass('active') ) {
-                location.href=old_url + "?attribute_pa_ausfuehrung=" + variation_attribute;
+                location.href = product_url + variation_url;
             }
 
             $(this).closest('.product').find( '.variations_in_loop_thumbnail' ).removeClass('active');
@@ -26,7 +30,8 @@ jQuery(function ($) {
 
             // Alle Links auswechseln
             var product_links = $(this).closest( '.product' ).find('a');
-            product_links.attr('href', old_url + "?attribute_pa_ausfuehrung=" + variation_attribute);
+            product_links.attr('href', product_url + variation_url);
+
 
         });
 
