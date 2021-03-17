@@ -24,7 +24,8 @@
                         data-variation-id="<?php echo $variation['variation_id']; ?>"
                         data-variation-img-src="<?php echo $variation['image']['src']; ?>"
                         data-variation-img-srcset="<?php echo $variation['image']['srcset']; ?>"
-                        data-variation-attribute="<?php echo $variation['attributes']['attribute_pa_ausfuehrung']?>"
+                        data-variation-attribute="<?php echo $variation['attributes']['attribute_pa_ausfuehrung'] ?>"
+                        data-product-url="<?php echo get_permalink($product_id) ?>"
                     >
                 <?php
             }
