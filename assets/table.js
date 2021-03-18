@@ -4,11 +4,15 @@ jQuery(function ($) {
       var timeout;
 
       $("body").on("change", ".qty", function () {
+        var qty_container = $(this).closest('.qib-container');
+        $(this).prop('disabled', true);
         if (timeout !== undefined ) {
           clearTimeout( timeout );
         }
-
+        
         timeout = setTimeout(() => {
+          // display loading
+          qty_container.addClass('loading');
           var qty = $(this).val();
           var product_id = $(this).closest("tr").data("product_id");
           $.ajax({
@@ -24,13 +28,21 @@ jQuery(function ($) {
               $(document.body).trigger("wc_fragments_refreshed"),
               $(document.body).trigger("wc_fragments_refresh"),
               $(document.body).trigger("wc_fragment_refresh");
+              
+              
             },
+            success: () => {
+              // remove loading
+              qty_container.removeClass('loading');
+              $(this).prop('disabled', false);
+            }
           });
-        }, 300)
+        }, 500)
       });
 
       // Load qtys from cart to inputs
       function get_cart_qty() {
+        $(".qib-container").addClass('loading');
         // Call to php to get cart items
         $.ajax({
           type: "POST",
@@ -43,6 +55,8 @@ jQuery(function ($) {
               var item = $("[data-product_id="+key+"]").find('.qty');
               item.val( res[key] );
             })
+            $(".qib-container").removeClass('loading');
+
           }
         })
       }

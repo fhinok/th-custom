@@ -1,0 +1,13 @@
+.qib-container.loading {
+    position: relative;
+}
+
+.qib-container.loading::after {
+    content: " ";
+    display: block;
+    position: absolute;
+    background: url('/wp-includes/images/spinner.gif') no-repeat center center;
+    background-color: rgba(179, 179, 179, 0.7);
+    height: 100%;
+    width: 100%;
+}
