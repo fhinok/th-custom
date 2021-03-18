@@ -33,4 +33,17 @@
         }
         
     }
+
+    // Override Template aus Plugin Laden anstelle von Theme
+    remove_filter( 'wpto_item_final_loc', 'wpt_item_manage_from_theme' );
+    add_filter( 'wpto_item_final_loc', 'th_display_variations_in_table', 1, 2 );
+
+    function th_display_variations_in_table($file, $file_name) {
+        $file_from_plugin = plugin_dir_path(__FILE__) . 'woo-product-table/items/' . $file_name . '.php';
+        if (file_exists( $file_from_plugin ) ) {
+            return $file_from_plugin;
+        }
+
+        return $file;
+    }
 ?>
