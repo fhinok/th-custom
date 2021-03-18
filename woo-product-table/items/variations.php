@@ -1,12 +1,27 @@
 <?php
-//echo "<div data-temp_number='{$temp_number}' class='{$row_class} wpt_variations wpt_variation_" . $data['id'] . "' data-quantity='1' data-product_id='" . $data['id'] . "' data-product_variations = '" . esc_attr( $data_product_variations ) . "'> ";
-//echo $variation_html;
-//echo "</div>";
 
-/**
- * Variation HTML is handled by new file
- * we have followed woocommerce default code
- * 
- * @since 2.7.8
- */
-echo "2344523523523";
+global $product;
+
+        if( $product->is_type( 'variable' )) {
+
+            $attribute_keys = array_keys( $product->get_attributes() );
+            $variations_data = [];
+
+            ?> <div class="variations_in_table"> <?php
+            foreach($product->get_available_variations() as $variation ) {
+                $variations_data[$variation['variation_id']] = $variation;
+                ?>
+                    <img 
+                        src="<?php echo $variation['image']['gallery_thumbnail_src']; ?>" 
+                        class="variations_in_table_thumbnail"
+                        data-variation-id="<?php echo $variation['variation_id']; ?>"
+                        data-variation-img-src="<?php echo $variation['image']['src']; ?>"
+                        data-variation-img-srcset="<?php echo $variation['image']['srcset']; ?>"
+                        data-variation-attributes='<?php echo json_encode($variation['attributes']) ?>'
+                        data-product-url="<?php echo get_permalink($product_id) ?>"
+                    >
+                <?php
+            }
+            ?> </div> <?php
+        } ?>
+<?php

@@ -39,3 +39,16 @@ background: none;
 .variations_in_loop::-webkit-scrollbar-thumb {
 background: #888;
 }
+
+.variations_in_table {
+    height: 100%;
+}
+
+.variations_in_table_thumbnail {
+    width: 30px;
+    height: 30px;
+}
+
+.variations_in_table_thumbnail.active {
+    border: 1px solid #1babe5!important;
+}
