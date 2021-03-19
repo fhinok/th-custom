@@ -1,36 +1,39 @@
 jQuery(function ($) {
     "use strict",
     $(document).ready(function () {
+        th_variations_in_loop();
     // in loop 
-        // Erste Version aktiv
-        $('.variations_in_loop_thumbnail:first-child').addClass('active');
-        // Richtige Variante Laden bei Klick
-        $('.variations_in_loop_thumbnail').on('click', function() {
-            var variation_attributes = $(this).data( 'variation-attributes' );
-            var variation_url = "";
-            Object.keys(variation_attributes).forEach( function( key ) {
-                variation_url += "?"+key+"="+variation_attributes[key];
-            })
-
-            var product_url = $(this).data( 'product-url' );
-            if ( $(this).hasClass('active') ) {
-                location.href = product_url + variation_url;
-            }
-
-            $(this).closest('.product').find( '.variations_in_loop_thumbnail' ).removeClass('active');
-            $(this).addClass('active');
-
-            // Bild auswechseln
-            var variation_img_src = $(this).data('variation-img-src');
-            var variation_img_srcset = $(this).data('variation-img-srcset');
-            var product_img = $(this).closest( '.product' ).find( '.wp-post-image' );
-            product_img.attr('src', variation_img_src);
-            product_img.attr('srcset', variation_img_srcset);
-
-            // Alle Links auswechseln
-            var product_links = $(this).closest( '.product' ).find('a');
-            product_links.attr('href', product_url + variation_url);
-        });
+        function th_variations_in_loop() {
+            // Erste Version aktiv
+            $('.variations_in_loop_thumbnail:first-child').addClass('active');
+            // Richtige Variante Laden bei Klick
+            $('.variations_in_loop_thumbnail').on('click', function() {
+                var variation_attributes = $(this).data( 'variation-attributes' );
+                var variation_url = "";
+                Object.keys(variation_attributes).forEach( function( key ) {
+                    variation_url += "?"+key+"="+variation_attributes[key];
+                })
+    
+                var product_url = $(this).data( 'product-url' );
+                if ( $(this).hasClass('active') ) {
+                    location.href = product_url + variation_url;
+                }
+    
+                $(this).closest('.product').find( '.variations_in_loop_thumbnail' ).removeClass('active');
+                $(this).addClass('active');
+    
+                // Bild auswechseln
+                var variation_img_src = $(this).data('variation-img-src');
+                var variation_img_srcset = $(this).data('variation-img-srcset');
+                var product_img = $(this).closest( '.product' ).find( '.wp-post-image' );
+                product_img.attr('src', variation_img_src);
+                product_img.attr('srcset', variation_img_srcset);
+    
+                // Alle Links auswechseln
+                var product_links = $(this).closest( '.product' ).find('a');
+                product_links.attr('href', product_url + variation_url);
+            });
+        }
 
     // in table
         function th_variations_in_table() {
@@ -70,6 +73,11 @@ jQuery(function ($) {
         }
         $(document).on('wc_fragments_refreshed', function() {
             th_variations_in_table();
+        });
+
+        // Trigger Variatonen-Script nach anwenden von Filter
+        $(document).on('berocket_ajax_products_loaded', function() {
+            th_variations_in_loop();
         });
     });
 });
