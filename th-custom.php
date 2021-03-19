@@ -224,7 +224,7 @@
     // Copyright Perlenfischer
 
     // Hook Admin Produkteseite
-    add_action( 'woocommerce_product_options_general_product_data', 'th_custom_add_custom_product_fields' );
+    add_action( 'woocommerce_product_options_advanced', 'th_custom_add_custom_product_fields' );
     function th_custom_add_custom_product_fields() {
         global $post;
 
