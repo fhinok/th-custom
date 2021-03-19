@@ -24,4 +24,4 @@ global $product;
             }
             ?> </div> <?php
         } ?>
-<?php
+        
