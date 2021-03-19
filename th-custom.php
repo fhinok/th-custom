@@ -37,7 +37,7 @@
         return $allowed_options;
     } );
 
-
+    
     // Create Admin Settings
 
     function th_render_plugin_settings_page() {
@@ -138,7 +138,7 @@
 
     // Zeige eine Meldung bei ausgeblendeten Kategorien
     function message_hide_add_to_cart () {
-        echo "<p>Dieses Produkt steht momentan im Webshop noch nicht zum Verkauf.</p>";
+        echo "<p>Dieses Produkt steht momentan im Webshop nicht zum Verkauf.</p>";
     }
 
     // Hack für Composite Plugin
@@ -174,6 +174,7 @@
         wp_enqueue_script( 'table-js', plugin_dir_url(__FILE__) . 'assets/table.js', array( 'jquery' ), '', true );
         wp_enqueue_style('table-css', plugin_dir_url(__FILE__) . 'assets/table.css');
     }
+
     add_action( 'wp_enqueue_scripts', 'th_custom_srcipts' );
 
     add_filter( 'wp_ajax_update_cart', 'ajax_update_cart' );

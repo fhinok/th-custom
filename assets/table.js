@@ -3,7 +3,7 @@ jQuery(function ($) {
     $(document).ready(function () {
       var timeout;
 
-      $("body").on("change", ".qty", function () {
+      $("#wpt_table").on("change", ".qty", function () {
         var qty_container = $(this).closest('.qib-container');
         $(this).prop('disabled', true);
         if (timeout !== undefined ) {
