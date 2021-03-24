@@ -3,14 +3,20 @@
     bottom: 150px;
     top: 0;
     right: 0;
-    width: 54px;
+    width: 64px;
     padding: 6px 5px 0 14px;
     overflow-y: scroll;
-    overflow-x: none;
+    overflow-x: hidden;
     scrollbar-width: thin;
     scrollbar-color: #888 transparent;
     background: linear-gradient(to left, rgba(247,245,240, 1) 20%, rgba(247,245,240, .8) 50%, rgba(247,245,240, 0));
     /* backdrop-filter: blur(1px); */
+}
+
+@media only screen and (max-width: 768px) {
+    .variations_in_loop {
+        bottom: 72px;
+    }
 }
 
 .variations_in_loop_thumbnail {
