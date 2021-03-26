@@ -205,6 +205,12 @@
             WC_AJAX :: get_refreshed_fragments();
         }
 
+        $data = array();
+        foreach( WC()->cart->get_cart() as $cart_item_key => $cart_item ){
+            $data[$cart_item['product_id']] = $cart_item['quantity'];
+        }
+        wp_send_json( $data );
+
         wp_die();
     }
 
