@@ -182,54 +182,51 @@
         
     function ajax_update_cart() {
 
-        $product_id = apply_filters('woocommerce_add_to_cart_product_id', absint($_POST['product_id']));
-        $quantity = filter_var($_POST['quantity'], FILTER_SANITIZE_STRING);
-        $passed_validation = apply_filters('woocommerce_add_to_cart_validation', true, $product_id, $quantity);
-        $product_status = get_post_status($product_id);
-        $exists = false;
+        $products = $_POST['products'];
+        $cart_items = array();
+        $log = array();
 
         foreach( WC()->cart->get_cart() as $cart_item ) {
-            $product_in_cart = $cart_item['product_id'];
-            if ( $product_in_cart === $product_id ) {
-                $exists = true;
+            $cart_items[] = $cart_item;
+        }
+
+        $log[1] = $cart_items;
+
+        $i = 0;
+        foreach ($products as $product_id => $qty) {
+            $product_id = apply_filters('woocommerce_add_to_cart_product_id', absint($product_id));
+            $quantity = filter_var($qty, FILTER_SANITIZE_STRING);
+            $passed_validation = apply_filters('woocommerce_add_to_cart_validation', true, $product_id, $quantity);
+            $product_status = get_post_status($product_id);
+            $exists = false;
+
+            foreach ( $cart_items as $cart_item ) {
+                if( $cart_item['product_id'] === $product_id ){
+                    $exists = true;
+                }
+            }
+
+            $log[0] = $product_id;
+            $log[2] = $exists;
+            $log[3] = $i;
+            $i++;
+
+            if ($passed_validation && !$exists) {
+                    WC()->cart->add_to_cart($product_id, $quantity);
+                do_action('woocommerce_ajax_added_to_cart', $product_id);
+            } else {
+                $prod_unique_id = WC()->cart->generate_cart_id( $product_id );
+                WC()->cart->set_quantity($prod_unique_id, $quantity);
             }
         }
-
-        if ($passed_validation && !$exists) {
-            WC()->cart->add_to_cart($product_id, $quantity);
-            do_action('woocommerce_ajax_added_to_cart', $product_id);
-            WC_AJAX :: get_refreshed_fragments();
-        } else {
-            $prod_unique_id = WC()->cart->generate_cart_id( $product_id );
-            WC()->cart->set_quantity($prod_unique_id, $quantity);
-            WC_AJAX :: get_refreshed_fragments();
-        }
-
-        $data = array();
-        foreach( WC()->cart->get_cart() as $cart_item_key => $cart_item ){
-            $data[$cart_item['product_id']] = $cart_item['quantity'];
-        }
-        wp_send_json( $data );
-
+        
+        
+        wp_send_json($log);
         wp_die();
     }
 
-    // Warenkorb nach Mengenfelder
-    add_filter( 'wp_ajax_get_cart_qty', 'ajax_get_cart_qty' );
-    add_filter( 'wp_ajax_nopriv_get_cart_qty', 'ajax_get_cart_qty' );
-
-    function ajax_get_cart_qty() {
-        $data = array();
-        foreach( WC()->cart->get_cart() as $cart_item_key => $cart_item ){
-            $data[$cart_item['product_id']] = $cart_item['quantity'];
-        }
-        wp_send_json( $data );
-
-        wp_die();
-    }
 
     // Copyright Perlenfischer
-
     // Hook Admin Produkteseite
     add_action( 'woocommerce_product_options_advanced', 'th_custom_add_custom_product_fields' );
     function th_custom_add_custom_product_fields() {
