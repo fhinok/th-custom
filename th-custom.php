@@ -184,15 +184,11 @@
 
         $products = $_POST['products'];
         $cart_items = array();
-        $log = array();
 
         foreach( WC()->cart->get_cart() as $cart_item ) {
             $cart_items[] = $cart_item;
         }
 
-        $log[1] = $cart_items;
-
-        $i = 0;
         foreach ($products as $product_id => $qty) {
             $product_id = apply_filters('woocommerce_add_to_cart_product_id', absint($product_id));
             $quantity = filter_var($qty, FILTER_SANITIZE_STRING);
@@ -206,11 +202,6 @@
                 }
             }
 
-            $log[0] = $product_id;
-            $log[2] = $exists;
-            $log[3] = $i;
-            $i++;
-
             if ($passed_validation && !$exists) {
                     WC()->cart->add_to_cart($product_id, $quantity);
                 do_action('woocommerce_ajax_added_to_cart', $product_id);
@@ -219,9 +210,7 @@
                 WC()->cart->set_quantity($prod_unique_id, $quantity);
             }
         }
-        
-        
-        wp_send_json($log);
+
         wp_die();
     }
 

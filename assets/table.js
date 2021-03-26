@@ -27,15 +27,11 @@ jQuery(function ($) {
               action: "update_cart",
               products: changed_products
             },
-            success: (res) => {
-              console.log(res);
+            success: () => {
               // remove loading
               $.each(changed_products, (item) => {
                 $("[data-product_id="+item+"]").find('.qib-container').removeClass('loading');
               })
-            },
-            error: (err) => {
-              console.error(err.responseText);
             },
             complete: () => {
               changed_products = {};
