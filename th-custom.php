@@ -251,7 +251,11 @@
     // Meldung Saisonal
     add_filter('berocket_apl_label_show_text', 'th_saison');
     function th_saison($text) {
-        if( 'saison' === strtolower($text) ) {
+        if (!is_product()) {
+            return $text;
+        }
+        
+        if( 'saison' === strtolower($text)) {
             add_action( 'woocommerce_product_additional_information', 'th_get_custom_product_fields', 20 );
             echo '<em>Nur solange Vorrat. Diese Produkt wird mit saisonalen Zutaten hergestellt.</em>';
         }
