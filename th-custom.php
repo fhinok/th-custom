@@ -257,7 +257,7 @@
         
         if( 'saison' === strtolower($text)) {
             add_action( 'woocommerce_product_additional_information', 'th_get_custom_product_fields', 20 );
-            echo '<em>Nur solange Vorrat. Diese Produkt wird mit saisonalen Zutaten hergestellt.</em>';
+            echo '<em>Nur solange Vorrat. Dieses Produkt wird mit saisonalen Zutaten hergestellt.</em>';
         }
         return $text;
     }
