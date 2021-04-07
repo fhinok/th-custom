@@ -78,7 +78,6 @@ jQuery(function ($) {
         });
 
         $('.variations_in_loop_thumbnail').on('click', function() {
-            $(this).closest( '.product' ).find( '.wp-post-image' ).addClass('loading');
             if ( $(this).hasClass('active') ) {
                 location.href = build_url( $(this) );
             } else {
