@@ -95,5 +95,7 @@ jQuery(function ($) {
             click_bind()
             th_variations_in_loop();
         });
+
+        click_bind();
     });
 });
