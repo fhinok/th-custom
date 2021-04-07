@@ -5,7 +5,6 @@ jQuery(function ($) {
     // in loop 
         function th_variations_in_loop() {
             $('.variations_in_loop_thumbnail:first-child').each( (index, element) => {
-                console.log('first');
                 swap_variation( $(element) ) ;
             })
         }
@@ -19,6 +18,10 @@ jQuery(function ($) {
 
         function swap_variation( variation ) {
             var variation_id = variation.data( 'variation-id' );
+            var product_imgs = [variation.closest( '.wpt_row' ).find( '.wpt_thumbnails_popup img' ), variation.closest( '.product' ).find( '.wp-post-image' )];
+            $.each(product_imgs, (key, product_img) => {
+                $(product_img).addClass('loading');
+            });
 
             variation.closest('.wpt_variation').find( '.variations_in_table_thumbnail' ).removeClass('active');
             variation.closest('.product').find( '.variations_in_loop_thumbnail' ).removeClass('active');
@@ -31,13 +34,11 @@ jQuery(function ($) {
             var variation_img_src = variation.data('variation-img-src');
             var variation_img_srcset = variation.data('variation-img-srcset');
 
-            var product_img = variation.closest( '.wpt_row' ).find( '.wpt_thumbnails_popup img' );
-            product_img.attr('src', variation_img_src);
-            product_img.attr('srcset', variation_img_srcset);
-
-            product_img = variation.closest( '.product' ).find( '.wp-post-image' );
-            product_img.attr('src', variation_img_src);
-            product_img.attr('srcset', variation_img_srcset);
+            var product_imgs = [variation.closest( '.wpt_row' ).find( '.wpt_thumbnails_popup img' ), variation.closest( '.product' ).find( '.wp-post-image' )];
+            $.each(product_imgs, (key, product_img) => {
+                product_img.attr('src', variation_img_src);
+                product_img.attr('srcset', variation_img_srcset);
+            });
             
             var product_popup = variation.closest( '.wpt_row' ).find( '.wpt_thumbnails_popup' );
             product_popup.data( 'url', variation_img_src);
@@ -45,6 +46,12 @@ jQuery(function ($) {
             // Alle Links auswechseln in loop
             var product_links = variation.closest( '.product' ).find('a');
             product_links.attr('href', build_url(variation));
+
+            $.each(product_imgs, (key, product_img) => {
+                $(product_img).imagesLoaded(() => {
+                    $(product_img).removeClass('loading');
+                });
+            });
         }
 
         function build_url(variation) {
@@ -71,6 +78,7 @@ jQuery(function ($) {
         });
 
         $('.variations_in_loop_thumbnail').on('click', function() {
+            $(this).closest( '.product' ).find( '.wp-post-image' ).addClass('loading');
             if ( $(this).hasClass('active') ) {
                 location.href = build_url( $(this) );
             } else {

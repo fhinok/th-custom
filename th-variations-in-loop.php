@@ -1,7 +1,8 @@
 <?php
 
     wp_enqueue_style( 'th-variations-in-loop', plugin_dir_url(__FILE__) . '/assets/th-variations-in-loop.css');
-    wp_enqueue_script( 'th-variations-in-loop', plugin_dir_url(__FILE__) . '/assets/th-variations-in-loop.js', array('jquery'));
+    wp_enqueue_script( 'th-variations-in-loop-imagesloaded', plugin_dir_url(__FILE__) . '/assets/imagesloaded.pkgd.min.js', array('jquery'));
+    wp_enqueue_script( 'th-variations-in-loop', plugin_dir_url(__FILE__) . '/assets/th-variations-in-loop.js', array('jquery', 'th-variations-in-loop-imagesloaded'));
 
     add_filter( 'woocommerce_after_shop_loop_item_title', 'th_display_variations_in_loop' );
  
