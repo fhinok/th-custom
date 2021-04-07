@@ -65,28 +65,34 @@ jQuery(function ($) {
             return product_url + variation_url;
         }
 
-        $('.variations_in_table_thumbnail').on('click', function() {
-            if ( $(this).hasClass('active') ) {
-                location.href = build_url( $(this) );
-            } else {
-                swap_variation( $(this) );
-            }
-        })
+        function click_bind() {
+            $('.variations_in_table_thumbnail').unbind( "click" )
+            $('.variations_in_table_thumbnail').on('click', function() {
+                if ( $(this).hasClass('active') ) {
+                    location.href = build_url( $(this) );
+                } else {
+                    swap_variation( $(this) );
+                }
+            })
+
+            $('.variations_in_loop_thumbnail').on('click', function() {
+                if ( $(this).hasClass('active') ) {
+                    location.href = build_url( $(this) );
+                } else {
+                    swap_variation( $(this) );
+                }
+            });
+
+        }
 
         $(document).on('wc_fragments_refreshed', function() {
+            click_bind()
             th_variations_in_table();
-        });
-
-        $('.variations_in_loop_thumbnail').on('click', function() {
-            if ( $(this).hasClass('active') ) {
-                location.href = build_url( $(this) );
-            } else {
-                swap_variation( $(this) );
-            }
         });
 
         // Trigger Variatonen-Script nach anwenden von Filter
         $(document).on('berocket_ajax_products_loaded', function() {
+            click_bind()
             th_variations_in_loop();
         });
     });
