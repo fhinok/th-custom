@@ -122,10 +122,22 @@
         $user = wp_get_current_user();
         $roles = ( array ) $user->roles;
 
-        // Falls der Kunde ein Stammkunde ist, aktiviere die Verkaufsfunktion
-        if( count(array_intersect( $b2b_roles, $roles ) ) ) {
-            return $return_val;
-        }
+        // // Falls der Kunde ein Stammkunde ist, aktiviere die Verkaufsfunktion
+        // if( count(array_intersect( $b2b_roles, $roles ) ) ) {
+        //     // Prüfe, ob der Stammkunde die passende 'kann_' Rolle besitzt.
+        //     $args = array(
+        //         'taxonomy' => 'product_cat',
+        //         'orderby' => 'parent',
+        //         'order' => 'ASC',
+        //         'hide_empty' => false
+        //     );
+        //     foreach( get_categories( $args ) as $category ) {
+        //         if( in_array('kann_'.$category->slug, $roles) && has_term( $category->slug, 'product_cat', $product->id )) {
+        //             return $return_val;
+        //         }
+        //     }
+        //     return false;
+        // }
 
         // Ist das Produkt in einer ausgeschlossenen Kategorie, wird der Verkauf deaktiviert
         if( empty($deactivate_categories) || !has_term( $deactivate_categories, 'product_cat', $product->id ) ) {
