@@ -148,7 +148,7 @@
 
     // Add to REST API
 
-    add_action( 'rest_api_init', 'th_custom_user_api' );
+    // add_action( 'rest_api_init', 'th_custom_user_api' );
 
     function th_custom_user_api ($user) {
 
@@ -177,7 +177,7 @@
 
     // POST to API
     function th_update_custom_user_api ($value, $user, $field) {
-        esc_html( update_user_meta($user->ID, $field, $value) );
+        return update_user_meta($user['id'], $field, $value);
     }
 
 ?>
