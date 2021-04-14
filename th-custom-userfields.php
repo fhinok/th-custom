@@ -11,7 +11,7 @@
         $customer_shipping = get_the_author_meta('customer_shipping', $user->ID);
         $customer_shipping_desc = get_the_author_meta('customer_shipping_desc', $user->ID);
         $crm_contact = get_the_author_meta('crm_contact', $user->ID);
-        $can_buy_roles = get_the_author_meta('can_buy_roles', $user->ID);
+        $can_buy_categories = get_the_author_meta('can_buy_categories', $user->ID);
 
 ?>
 
@@ -30,12 +30,12 @@
                 </td>
             </tr>
             <tr>
-                <th><label for="can_buy_roles"><?php esc_html_e( 'Kann Kaufen', 'crf' ); ?></label></th>
+                <th><label for="can_buy_categories"><?php esc_html_e( 'Kann Kaufen', 'crf' ); ?></label></th>
                 <td>
                     <input type="text"
-                        name = "can_buy_roles"
-                        id = "can_buy_roles"
-                        value = "<?php echo esc_attr( implode( ', ', $can_buy_roles ) ); ?>"
+                        name = "can_buy_categories"
+                        id = "can_buy_categories"
+                        value = "<?php echo esc_attr( implode( ', ', $can_buy_categories ) ); ?>"
                         class = "regular-text"
                     />
                 </td>
@@ -90,7 +90,7 @@
         update_user_meta( $user_id, 'customer_shipping', sanitize_text_field( $_POST['customer_shipping'] ) );
         update_user_meta( $user_id, 'customer_shipping_desc', sanitize_textarea_field( $_POST['customer_shipping_desc'] ) );
         update_user_meta( $user_id, 'crm_contact', sanitize_textarea_field( $_POST['crm_contact'] ) );
-        update_user_meta( $user_id, 'can_buy_roles', sanitize_textarea_field( $_POST['can_buy_roles'] ) );
+        update_user_meta( $user_id, 'can_buy_categories', sanitize_textarea_field( $_POST['can_buy_categories'] ) );
 
         if ( $_POST['customer_number'] != get_user_meta( $user_id,  'customer_number', true ) ) {
             wp_die( __( 'An error occurred', 'textdomain' ) );
@@ -105,7 +105,7 @@
         $customer_shipping = get_the_author_meta('customer_shipping', $user->ID);
         $customer_shipping_desc = get_the_author_meta('customer_shipping_desc', $user->ID);
         $crm_contact = get_the_author_meta('crm_contact', $user->ID);
-        $can_buy_roles = get_the_author_meta('can_buy_roles', $user->ID);
+        $can_buy_categories = get_the_author_meta('can_buy_categories', $user->ID);
 
 ?>
 
@@ -145,8 +145,8 @@
             <label for="th_customer_number"><?php esc_html_e( 'Kann Kaufen', 'crf' ); ?></label>
             <input type="text" 
                 class="woocommerce-Input woocommerce-Input--text input-text" 
-                name="th_can_buy_roles" id="th_customer_number" 
-                value="<?php echo esc_attr( $can_buy_roles ); ?>"
+                name="th_can_buy_categories" id="th_customer_number" 
+                value="<?php echo esc_attr( $can_buy_categories ); ?>"
                 disabled="disabled"
             >
         </p>
@@ -179,7 +179,7 @@
         }
 
         // register meta fields to API
-        $meta = array('customer_number', 'customer_shipping', 'customer_shipping_desc', 'crm_contact', 'can_buy_roles');
+        $meta = array('customer_number', 'customer_shipping', 'customer_shipping_desc', 'crm_contact', 'can_buy_categories');
         foreach ( $meta as $item ) {
             register_rest_field('user', $item, array(
                 'get_callback' => 'th_get_custom_user_api',
