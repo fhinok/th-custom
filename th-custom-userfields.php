@@ -93,7 +93,7 @@
         update_user_meta( $user_id, 'customer_shipping', sanitize_text_field( $_POST['customer_shipping'] ) );
         update_user_meta( $user_id, 'customer_shipping_desc', sanitize_textarea_field( $_POST['customer_shipping_desc'] ) );
         update_user_meta( $user_id, 'crm_contact', sanitize_textarea_field( $_POST['crm_contact'] ) );
-        update_user_meta( $user_id, 'can_buy_categories', sanitize_textarea_field( $_POST['can_buy_categories'] ) );
+        update_user_meta( $user_id, 'can_buy_categories', explode(', ', sanitize_textarea_field( $_POST['can_buy_categories'] ) ) );
 
         if ( $_POST['customer_number'] != get_user_meta( $user_id,  'customer_number', true ) ) {
             wp_die( __( 'An error occurred', 'textdomain' ) );
@@ -109,6 +109,9 @@
         $customer_shipping_desc = get_the_author_meta('customer_shipping_desc', $user->ID);
         $crm_contact = get_the_author_meta('crm_contact', $user->ID);
         $can_buy_categories = get_the_author_meta('can_buy_categories', $user->ID);
+        if ( $can_buy_categories ) {
+            $can_buy_categories = implode(', ', $can_buy_categories);
+        }
 
 ?>
 

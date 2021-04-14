@@ -124,7 +124,16 @@
 
         // Falls der Kunde ein Stammkunde ist, aktiviere die Verkaufsfunktion
         if( count(array_intersect( $b2b_roles, $roles ) ) ) {
-            return $return_val;
+            // Prüfe, ob der Stammkunde die passende Berechtigung besitzt.
+            $user_categories = get_the_author_meta('can_buy_categories', $user->ID);
+            if($user_categories) {
+                foreach( $user_categories as $category ) {
+                    if( has_term( $category, 'product_cat', $product->id )) {
+                        return $return_val;
+                    }
+                }
+            }
+            return false;
         }
 
         // Ist das Produkt in einer ausgeschlossenen Kategorie, wird der Verkauf deaktiviert
@@ -139,6 +148,25 @@
     // Zeige eine Meldung bei ausgeblendeten Kategorien
     function message_hide_add_to_cart () {
         echo "<p>Dieses Produkt steht momentan im Webshop nicht zum Verkauf.</p>";
+    }
+
+    add_action( 'wpto_table_query_args', 'th_hide_products_in_table', 1, 1 );
+    function th_hide_products_in_table($a) {
+        $user = get_current_user_id();
+        $user_categories = get_the_author_meta('can_buy_categories', $user);
+        if( $user_categories ) {
+            // $user_categories = ['bachfische', 'teigwaren'];
+            $user_categories_ids = [];
+            $a['tax_query']['product_cat_IN']['terms'] = [];
+            foreach( $user_categories as $category) {
+                $category = get_term_by( 'slug', $category, 'product_cat' );
+                $user_categories_ids[] = $category->term_id;
+            }
+
+            $a['tax_query']['product_cat_IN']['terms'] = $user_categories_ids;
+        }
+
+        return $a;
     }
 
     // Hack für Composite Plugin
