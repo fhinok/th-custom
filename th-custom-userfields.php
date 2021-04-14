@@ -12,6 +12,9 @@
         $customer_shipping_desc = get_the_author_meta('customer_shipping_desc', $user->ID);
         $crm_contact = get_the_author_meta('crm_contact', $user->ID);
         $can_buy_categories = get_the_author_meta('can_buy_categories', $user->ID);
+        if ( $can_buy_categories ) {
+            $can_buy_categories = implode(', ', $can_buy_categories);
+        }
 
 ?>
 
@@ -35,7 +38,7 @@
                     <input type="text"
                         name = "can_buy_categories"
                         id = "can_buy_categories"
-                        value = "<?php echo esc_attr( implode( ', ', $can_buy_categories ) ); ?>"
+                        value = "<?php echo esc_attr( $can_buy_categories ); ?>"
                         class = "regular-text"
                     />
                 </td>
