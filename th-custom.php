@@ -150,12 +150,13 @@
         echo "<p>Dieses Produkt steht momentan im Webshop nicht zum Verkauf.</p>";
     }
 
-    add_action( 'wpto_table_query_args', 'th_hide_products_in_table', 1, 1 );
-    function th_hide_products_in_table($a) {
+    // In Tabelle ausblenden
+    add_action( 'wpto_table_query_args', 'th_hide_products_in_table', 1, 3 );
+    function th_hide_products_in_table($a, $b, $c) {
         $user = get_current_user_id();
         $user_categories = get_the_author_meta('can_buy_categories', $user);
-        if( $user_categories ) {
-            // $user_categories = ['bachfische', 'teigwaren'];
+        // var_dump($c);
+        if( $user_categories && $c['name'] == 'Reseller' ) {
             $user_categories_ids = [];
             $a['tax_query']['product_cat_IN']['terms'] = [];
             foreach( $user_categories as $category) {
@@ -179,6 +180,7 @@
         wp_enqueue_script('th_custom_admin_script', plugin_dir_url(__FILE__) . 'assets/admin.js');
     }
     
+    // wp_enqueue_script('th_custom_script', plugin_dir_url(__FILE__) . 'assets/th-custom.js', array('jquery'));
     add_action('admin_enqueue_scripts', 'th_enqueue');
 
 
