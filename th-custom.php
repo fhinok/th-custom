@@ -162,8 +162,9 @@
             foreach( $user_categories as $category) {
                 $category = get_term_by( 'slug', $category, 'product_cat' );
                 $user_categories_ids[] = $category->term_id;
+                echo "<script>filterToRemove.push('".$category->term_id."');</script>";
             }
-
+            
             $a['tax_query']['product_cat_IN']['terms'] = $user_categories_ids;
         }
 
@@ -180,7 +181,7 @@
         wp_enqueue_script('th_custom_admin_script', plugin_dir_url(__FILE__) . 'assets/admin.js');
     }
     
-    // wp_enqueue_script('th_custom_script', plugin_dir_url(__FILE__) . 'assets/th-custom.js', array('jquery'));
+    wp_enqueue_script('th_custom_script', plugin_dir_url(__FILE__) . 'assets/th-custom.js', array('jquery'));
     add_action('admin_enqueue_scripts', 'th_enqueue');
 
 
