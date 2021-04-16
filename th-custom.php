@@ -299,7 +299,7 @@
         global $product;
         $is_bio = $product->get_attribute( 'bio' );
         if( $is_bio == "Ja") {
-            echo '<div class="bio_logo"><a href=""><img src="' . plugin_dir_url( __FILE__ ) . '/img/bio-knospe-logo.png"></a></div>';
+            echo '<div class="bio_logo"><a href="https://www.bio-suisse.ch" target="_blank"><img src="' . plugin_dir_url( __FILE__ ) . '/img/bio-knospe-logo.png"></a></div>';
         }
     }
 
