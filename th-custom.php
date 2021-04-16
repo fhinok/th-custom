@@ -293,4 +293,14 @@
         return $text;
     }
     
+    // Bio Suisse Logo
+    add_action('woocommerce_product_additional_information', 'th_bio_logo', 20);
+    function th_bio_logo() {
+        global $product;
+        $is_bio = $product->get_attribute( 'bio' );
+        if( $is_bio == "Ja") {
+            echo '<div class="bio_logo"><a href=""><img src="' . plugin_dir_url( __FILE__ ) . '/img/bio-knospe-logo.png"></a></div>';
+        }
+    }
+
 ?>
