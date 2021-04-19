@@ -89,15 +89,18 @@
             return false;
         }
 
-        update_user_meta( $user_id, 'customer_number', sanitize_text_field( $_POST['customer_number'] ) );
+        $customer_number = '530';
+        if ( isset( $_POST['customer_number'] ) && !empty( $_POST['customer_number'] ) ) {
+            $customer_number = $_POST['customer_number'];
+        }
+
+        update_user_meta( $user_id, 'customer_number', sanitize_text_field( $customer_number ) );
         update_user_meta( $user_id, 'customer_shipping', sanitize_text_field( $_POST['customer_shipping'] ) );
         update_user_meta( $user_id, 'customer_shipping_desc', sanitize_textarea_field( $_POST['customer_shipping_desc'] ) );
         update_user_meta( $user_id, 'crm_contact', sanitize_textarea_field( $_POST['crm_contact'] ) );
         update_user_meta( $user_id, 'can_buy_categories', explode(', ', sanitize_textarea_field( $_POST['can_buy_categories'] ) ) );
+        
 
-        if ( $_POST['customer_number'] != get_user_meta( $user_id,  'customer_number', true ) ) {
-            wp_die( __( 'An error occurred', 'textdomain' ) );
-        }
     }
 
     add_action( 'woocommerce_edit_account_form', 'th_custom_user_fields_customer' );
