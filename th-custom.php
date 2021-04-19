@@ -298,9 +298,15 @@
     function th_bio_logo() {
         global $product;
         $is_bio = $product->get_attribute( 'bio' );
+        $is_urdinkel = $product->get_attribute( 'typ' );
+        echo '<div class="zertifizierungen">';
         if( $is_bio == "Ja") {
             echo '<div class="bio_logo"><a href="https://www.bio-suisse.ch" target="_blank"><img src="' . plugin_dir_url( __FILE__ ) . '/img/bio-knospe-logo.png"></a></div>';
         }
+        if ( strtolower($is_urdinkel) == 'urdinkel' ) {
+            echo '<div class="urdinkel_logo"><a href="https://www.urdinkel.ch" target="_blank"><img src="' . plugin_dir_url( __FILE__ ) .'/img/urdinkel-logo.png"</a></div>';
+        }
+        echo "</div>";
     }
 
 ?>
