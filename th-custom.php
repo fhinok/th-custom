@@ -25,7 +25,8 @@
         'th-custom' => array(
             'categories_disabled',
             'b2b_roles',
-            'hide_shipping_methods'
+            'hide_shipping_methods',
+            'hide_shipping_methods_guest'
         )
     );
 
@@ -67,7 +68,7 @@
     }
 
     function section_callback() {
-        echo 'Definieren einiger Einstellungen für Berechtigungen und Rollen. Kategorien mit Komma trennen.';
+        echo 'Definieren einiger Einstellungen für Berechtigungen und Rollen.';
     }
 
     add_action( 'admin_init', 'setup_fields' );
@@ -75,6 +76,7 @@
         add_settings_field( 'categories_disabled', 'Kategorien für den Verkauf',  'categories_callback', 'th-custom', 'shop_settings');
         add_settings_field( 'b2b_roles', 'B2B Rollen',  'roles_callback', 'th-custom', 'shop_settings');
         add_settings_field( 'hide_shipping_methods', 'Versteckte Lieferoptionen für Stammkunden', 'shipping_callback', 'th-custom', 'shop_settings');
+        add_settings_field( 'hide_shipping_methods_guest', 'Versteckte Lieferoptionen für Standard-Kunden', 'shipping_callback_guest', 'th-custom', 'shop_settings');
     }
 
     function categories_callback() {
@@ -133,6 +135,30 @@
         }, $zones);
 
         register_setting( 'th-custom', 'hide_shipping_methods' );
+    }
+
+    function shipping_callback_guest() {
+        $zones = WC_Shipping_Zones::get_zones();
+        $methods = array_map(function($zone) {
+            echo "<strong>Zone : {$zone['zone_name']}</strong><br />";
+            
+            $hide_shipping_methods = get_option( 'hide_shipping_methods_guest' );
+            if(!$hide_shipping_methods) {
+                $hide_shipping_methods = array();
+            }
+
+            foreach( $zone['shipping_methods'] as $shipping_method ):
+                $shipping_id = $shipping_method->id . ':' . $shipping_method->instance_id;
+                ?> 
+                <input id="<?php echo $shipping_id; ?>_guest" name="hide_shipping_methods_guest[]" type="checkbox" value="<?php echo $shipping_id; ?>" <?php checked( in_array( $shipping_id, $hide_shipping_methods ) ) ?> />
+                <label for="<?php echo $shipping_id; ?>_guest"><?php echo $shipping_method->title; ?></label><br />
+                <?php
+            endforeach;
+
+            echo "<br/ >";
+        }, $zones);
+
+        register_setting( 'th-custom', 'hide_shipping_methods_guest' );
     }
 
     // Deaktiviere die Verkaufsfunktion für bestimmte Kategorien
