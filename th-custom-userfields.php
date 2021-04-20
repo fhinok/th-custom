@@ -47,7 +47,7 @@
                 <th><label for="customer_shipping"><?php esc_html_e( 'Standard - Versandoption', 'crf' ); ?></label></th>
                 <td>                    
                     <select name="customer_shipping" id="customer_shipping">
-                    <option value="0" <?php selected( 1 , $customer_shipping ); ?> ></option>
+                    <option value="0" <?php selected( 0 , $customer_shipping ); ?> ></option>
                     <option value="1" <?php selected( 1 , $customer_shipping ); ?> >Lieferung durch Töpferhaus</option>
                     <option value="2" <?php selected( 2 , $customer_shipping ); ?> >Abholung durch Kunden</option>
                     <option value="3" <?php selected( 3 , $customer_shipping ); ?> >Postversand</option>
