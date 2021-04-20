@@ -44,12 +44,12 @@
                 </td>
             </tr>
             <tr>
-                <th><label for="customer_shipping"><?php esc_html_e( 'Versandoption', 'crf' ); ?></label></th>
+                <th><label for="customer_shipping"><?php esc_html_e( 'Standard - Versandoption', 'crf' ); ?></label></th>
                 <td>                    
                     <select name="customer_shipping" id="customer_shipping">
-                        <option value="0" <?php selected( 0 , $customer_shipping ); ?> >Berechnung nach PLZ</option>
-                        <option value="1" <?php selected( 1 , $customer_shipping ); ?> >Spezialdeal</option>
-                        <option value="2" <?php selected( 2 , $customer_shipping ); ?> >Abholung</option>
+                    <option value="0" <?php selected( 0 , $customer_shipping ); ?> >Lieferung durch Töpferhaus</option>
+                    <option value="1" <?php selected( 1 , $customer_shipping ); ?> >Abholung durch Kunden</option>
+                    <option value="2" <?php selected( 2 , $customer_shipping ); ?> >Postversand</option>
                     </select>
                 </td>
             </tr>
@@ -137,9 +137,9 @@
         <p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
             <label for="th_customer_shipping"><?php esc_html_e( 'Versandoption', 'crf' ); ?></label>                
             <select name="th_customer_shipping" id="th_customer_shipping" disabled="disabled">
-                <option value="0" <?php selected( 0 , $customer_shipping ); ?> >Berechnung nach PLZ</option>
-                <option value="1" <?php selected( 1 , $customer_shipping ); ?> >Spezialdeal</option>
-                <option value="2" <?php selected( 2 , $customer_shipping ); ?> >Abholung</option>
+                <option value="0" <?php selected( 0 , $customer_shipping ); ?> >Lieferung durch Töpferhaus</option>
+                <option value="1" <?php selected( 1 , $customer_shipping ); ?> >Abholung durch Kunden</option>
+                <option value="2" <?php selected( 2 , $customer_shipping ); ?> >Postversand</option>
             </select>
         </p>
         <p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
