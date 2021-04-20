@@ -47,9 +47,10 @@
                 <th><label for="customer_shipping"><?php esc_html_e( 'Standard - Versandoption', 'crf' ); ?></label></th>
                 <td>                    
                     <select name="customer_shipping" id="customer_shipping">
-                    <option value="0" <?php selected( 0 , $customer_shipping ); ?> >Lieferung durch Töpferhaus</option>
-                    <option value="1" <?php selected( 1 , $customer_shipping ); ?> >Abholung durch Kunden</option>
-                    <option value="2" <?php selected( 2 , $customer_shipping ); ?> >Postversand</option>
+                    <option value="0" <?php selected( 1 , $customer_shipping ); ?> ></option>
+                    <option value="1" <?php selected( 1 , $customer_shipping ); ?> >Lieferung durch Töpferhaus</option>
+                    <option value="2" <?php selected( 2 , $customer_shipping ); ?> >Abholung durch Kunden</option>
+                    <option value="3" <?php selected( 3 , $customer_shipping ); ?> >Postversand</option>
                     </select>
                 </td>
             </tr>
@@ -135,11 +136,12 @@
             <label style='white-space: pre-line; font-weight: 400'><?php echo $crm_contact; ?></label>
         </p>
         <p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
-            <label for="th_customer_shipping"><?php esc_html_e( 'Versandoption', 'crf' ); ?></label>                
+            <label for="th_customer_shipping"><?php esc_html_e( 'Standard - Versandoption', 'crf' ); ?></label>                
             <select name="th_customer_shipping" id="th_customer_shipping" disabled="disabled">
-                <option value="0" <?php selected( 0 , $customer_shipping ); ?> >Lieferung durch Töpferhaus</option>
-                <option value="1" <?php selected( 1 , $customer_shipping ); ?> >Abholung durch Kunden</option>
-                <option value="2" <?php selected( 2 , $customer_shipping ); ?> >Postversand</option>
+                <option value="0" <?php selected( 0 , $customer_shipping ); ?> ></option>
+                <option value="1" <?php selected( 1 , $customer_shipping ); ?> >Lieferung durch Töpferhaus</option>
+                <option value="2" <?php selected( 2 , $customer_shipping ); ?> >Abholung durch Kunden</option>
+                <option value="3" <?php selected( 3 , $customer_shipping ); ?> >Postversand</option>
             </select>
         </p>
         <p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
@@ -195,17 +197,6 @@
                 'update_callback' => 'th_update_custom_user_api',
                 'schema' => null
             ));
-            // register_meta( 'user', $item, array(
-            //     'single' => true,
-            //     'type' => 'string',
-            //     'default' => true,
-            //     'show_in_rest' => true,
-            //     'supports' => [
-            //         'title',
-            //         'custom-fields',
-            //         'revisions'
-            //     ]
-            // ) );
         }
     }
 
