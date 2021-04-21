@@ -210,4 +210,66 @@
         return update_user_meta($user['id'], $field, $value, false);
     }
 
+
+    // API ROLES
+
+    function th_get_user_roles( $request ) {
+        $user_meta = get_userdata( $request->get_param('id') );
+        if ( empty( $user_meta ) ) {
+            return new WP_Error( 'no_customer', 'Invalid customer', array( 'status' => 404 ) );
+          }
+        $user_roles = $user_meta->roles;
+        $response = array(
+            'id' => $user_meta->ID,
+            'roles' => $user_roles
+        );
+        return $response;
+    }
+
+    function th_add_user_roles( $request ) {
+        $roles = $request->get_param('roles');
+        
+        $user = new WP_User( $request->get_param('id') );
+        $user->set_role('');
+        
+        foreach( $roles as $role ) {
+            $user->add_role($role);
+        }
+        
+        return $user;
+    }
+
+    add_action( 'rest_api_init', 'th_roles_route' );
+    function th_roles_route() {
+        register_rest_route( 'wc/v3', 'customers/(?P<id>\d+)/roles/', array(
+            'methods' => 'GET',
+            'callback' => 'th_get_user_roles',
+            'args' => array(
+                'id' => array(
+                    'validate_callback' => function($param, $request, $key) {
+                    return is_numeric( $param );
+                    }
+                ),
+            ),
+            'permission_callback' => function () {
+                return current_user_can( 'administrator' );
+            }
+        ) );
+
+        register_rest_route( 'wc/v3', 'customers/(?P<id>\d+)/roles/', array(
+            'methods' => array('POST', 'PUT'),
+            'callback' => 'th_add_user_roles',
+            'args' => array(
+                'id' => array(
+                    'validate_callback' => function($param, $request, $key) {
+                    return is_numeric( $param );
+                    }
+                )
+            ),
+            'permission_callback' => function () {
+                return current_user_can( 'administrator' );
+            }
+        ) );
+    }
+
 ?>
