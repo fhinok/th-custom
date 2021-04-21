@@ -4,43 +4,45 @@ jQuery(function ($) {
       // Save all changed inputs to array and after timeout post to ajax 
       // Save on input change
       var timeout;
+
+      function set_cart_qty (changed_products) {                
+        $.each(changed_products, (item) => {
+          $("[data-product_id="+item+"]").find('.qib-container').addClass('loading');
+        })
+        $.ajax({
+          type: "POST",
+          url: wc_add_to_cart_params.ajax_url,
+          data: {
+            action: "update_cart",
+            products: changed_products
+          },
+          success: () => {
+            // remove loading
+            $.each(changed_products, (item) => {
+              $("[data-product_id="+item+"]").find('.qib-container').removeClass('loading');
+            })
+          },
+          complete: () => {
+            $(document.body).trigger("updated_cart_totals");
+            $(document.body).trigger("wc_fragment_refresh");              
+          },
+
+        });
+      }
       var changed_products = {};
       $("#wpt_table").on("change", ".qty", function () {
+        var qty = $(this).val();
+        var product_id = $(this).closest("tr").data("product_id");
+        changed_products[product_id] = qty;
+
         if (timeout !== undefined ) {
           clearTimeout( timeout );
         }
-        
-        var qty = $(this).val();
-        var product_id = $(this).closest("tr").data("product_id");
-        
-        changed_products[product_id] = qty;
 
-        
         timeout = setTimeout(() => {
-          $.each(changed_products, (item) => {
-            $("[data-product_id="+item+"]").find('.qib-container').addClass('loading');
-          })
-          $.ajax({
-            type: "POST",
-            url: wc_add_to_cart_params.ajax_url,
-            data: {
-              action: "update_cart",
-              products: changed_products
-            },
-            success: () => {
-              // remove loading
-              $.each(changed_products, (item) => {
-                $("[data-product_id="+item+"]").find('.qib-container').removeClass('loading');
-              })
-            },
-            complete: () => {
-              changed_products = {};
-              $(document.body).trigger("updated_cart_totals");
-              $(document.body).trigger("wc_fragment_refresh");              
-            },
-
-          });
-        }, 500)
+          set_cart_qty(changed_products);
+          changed_products = {};
+        }, 750)
       });
 
       var cart_old;
