@@ -237,19 +237,18 @@
     add_action('admin_enqueue_scripts', 'th_enqueue');
 
 
-    // Product Table Autocheck
-    add_filter( 'woocommerce_quantity_input_args', 'th_woocommerce_quantity_input_args', 10, 2 );
-
-    function th_woocommerce_quantity_input_args($args, $product) {
+    // Product Table 0
+    add_filter("woocommerce_quantity_input_min","th_woocommerce_quantity_input");
+    function th_woocommerce_quantity_input($a) {
         $b2b_roles = th_return_option( 'b2b_roles' );
         $user = wp_get_current_user();
         $roles = ( array ) $user->roles;
         
         // Falls der Kunde ein Stammkunde ist, beginnt die Menge bei 0
         if( count(array_intersect( $b2b_roles, $roles ) ) ) {
-            $args['input_value'] = 0;
+            return 0;
         }
-        return $args;
+        return $a;
     }
 
     // Product Table Ajax Update
