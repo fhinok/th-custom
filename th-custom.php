@@ -25,6 +25,7 @@
         'th-custom' => array(
             'categories_disabled',
             'b2b_roles',
+            'max_cards',
             'hide_shipping_methods',
             'hide_shipping_methods_guest'
         )
@@ -75,6 +76,7 @@
     function setup_fields() {
         add_settings_field( 'categories_disabled', 'Kategorien für den Verkauf',  'categories_callback', 'th-custom', 'shop_settings');
         add_settings_field( 'b2b_roles', 'B2B Rollen',  'roles_callback', 'th-custom', 'shop_settings');
+        add_settings_field( 'max_cards', 'Max. Karten',  'max_cards_callback', 'th-custom', 'shop_settings');
         add_settings_field( 'hide_shipping_methods', 'Versteckte Lieferoptionen für Stammkunden', 'shipping_callback', 'th-custom', 'shop_settings');
         add_settings_field( 'hide_shipping_methods_guest', 'Versteckte Lieferoptionen für Standard-Kunden', 'shipping_callback_guest', 'th-custom', 'shop_settings');
     }
@@ -111,6 +113,11 @@
     function roles_callback() {
         echo '<input name="b2b_roles" id="b2b_roles" type="text" value="' . get_option( 'b2b_roles' ) . '" />';
         register_setting( 'th-custom', 'b2b_roles' );
+    }
+
+    function max_cards_callback() {
+        echo '<input name="max_cards" id="max_cards" type="number" value="' . get_option( 'max_cards' ) . '" />';
+        register_setting( 'th-custom', 'max_cards' );
     }
 
     function shipping_callback() {
@@ -359,5 +366,27 @@
         }
         echo "</div>";
     }
+
+
+add_action( 'woocommerce_after_cart_table', 'th_notice_max_qty' );
+add_action( 'woocommerce_checkout_after_terms_and_conditions', 'th_notice_max_qty' );
+function th_notice_max_qty() {
+    $count_qty = 0;
+    
+    $restricted_category = 'karten';
+    $max_num_products = get_option( 'max_cards' );
+    
+    foreach (WC()->cart->get_cart() as $cart_item_key=>$cart_item) {
+        $count_qty += $cart_item['quantity'];
+        
+        if( has_term( $restricted_category, 'product_cat', $cart_item['product_id'] ) ) {
+            if ( $count_qty > $max_num_products ) {
+                echo "<p class='woocommerce-error'>Für Bestellungen von mehr als " . $max_num_products . " Karten kontaktieren Sie bitte das Töpferhaus.</p>";
+                remove_action('woocommerce_proceed_to_checkout', 'woocommerce_button_proceed_to_checkout', 20);
+                add_filter('woocommerce_order_button_html', '__return_false' );
+            }
+        }
+    }
+}
 
 ?>
