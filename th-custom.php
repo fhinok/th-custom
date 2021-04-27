@@ -220,6 +220,7 @@
             $a['tax_query']['product_cat_IN']['terms'] = [];
             foreach( $user_categories as $category) {
                 $category = get_term_by( 'slug', $category, 'product_cat' );
+                if( $category->slug === 'karten' ){ continue; }
                 $user_categories_ids[] = $category->term_id;
                 echo "<script>filterToRemove.push('".$category->term_id."');</script>";
             }

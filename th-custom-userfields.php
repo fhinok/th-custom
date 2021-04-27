@@ -123,7 +123,7 @@
 
         <table class="woocommerce-EditAccountForm edit-account">
         <p class="woocommerce-form-row woocommerce-form-row--first form-row form-row-first">
-            <label for="th_customer_number"><?php esc_html_e( 'Kundennummer', 'crf' ); ?></label>
+            <label for="th_customer_number"><?php esc_html_e( 'Ihre Kundennummer', 'crf' ); ?></label>
             <input type="text" 
                 class="woocommerce-Input woocommerce-Input--text input-text" 
                 name="th_customer_number" id="th_customer_number" 
@@ -151,15 +151,6 @@
                 id = "customer_shipping_desc"
                 rows = "2" cols = "30"
             ><?php echo esc_attr( $customer_shipping_desc ); ?></textarea>
-        </p>
-        <p class="woocommerce-form-row woocommerce-form-row--first form-row form-row-first">
-            <label for="th_customer_number"><?php esc_html_e( 'Kann Kaufen', 'crf' ); ?></label>
-            <input type="text" 
-                class="woocommerce-Input woocommerce-Input--text input-text" 
-                name="th_can_buy_categories" id="th_customer_number" 
-                value="<?php echo esc_attr( $can_buy_categories ); ?>"
-                disabled="disabled"
-            >
         </p>
         </table>
 
