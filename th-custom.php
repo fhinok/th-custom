@@ -345,8 +345,10 @@
         $is_bio = $product->get_attribute( 'bio' );
         $is_urdinkel = $product->get_attribute( 'typ' );
         $is_saison = get_post_meta( $product->id, 'br_labels' );
-        if ( in_array( '5679', $is_saison[0]['label_from_post'] ) ) {
-            echo '<em>Nur solange Vorrat. Dieses Produkt wird mit saisonalen Zutaten hergestellt.</em>';
+        if ( $is_saison[0]['label_from_post'] ) {
+            if ( in_array( '5679', $is_saison[0]['label_from_post'] ) ) {
+                echo '<em>Nur solange Vorrat. Dieses Produkt wird mit saisonalen Zutaten hergestellt.</em>';
+            }
         }
 
         echo '<div class="zertifizierungen">';
