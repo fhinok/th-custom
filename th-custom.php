@@ -338,26 +338,17 @@
         } 
     }
 
-    // Meldung Saisonal
-    add_filter('berocket_apl_label_show_text', 'th_saison');
-    function th_saison($text) {
-        if (!is_product()) {
-            return $text;
-        }
-        
-        if( 'saison' === strtolower($text)) {
-            add_action( 'woocommerce_product_additional_information', 'th_get_custom_product_fields', 20 );
-            echo '<em>Nur solange Vorrat. Dieses Produkt wird mit saisonalen Zutaten hergestellt.</em>';
-        }
-        return $text;
-    }
-    
     // Bio Suisse Logo
     add_action('woocommerce_product_additional_information', 'th_bio_logo', 20);
     function th_bio_logo() {
         global $product;
         $is_bio = $product->get_attribute( 'bio' );
         $is_urdinkel = $product->get_attribute( 'typ' );
+        $is_saison = get_post_meta( $product->id, 'br_labels' );
+        if ( in_array( '5679', $is_saison[0]['label_from_post'] ) ) {
+            echo '<em>Nur solange Vorrat. Dieses Produkt wird mit saisonalen Zutaten hergestellt.</em>';
+        }
+
         echo '<div class="zertifizierungen">';
         if( $is_bio == "Ja") {
             echo '<div class="bio_logo"><a href="https://www.bio-suisse.ch" target="_blank"><img src="' . plugin_dir_url( __FILE__ ) . '/img/bio-knospe-logo.png"></a></div>';
