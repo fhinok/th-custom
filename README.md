@@ -1,3 +1,3 @@
 # th-custom
 
-Wordpress customizations for Wordpress
+Wordpress customizations for Töpferhaus Aarau
