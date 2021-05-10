@@ -10,7 +10,7 @@ jQuery(function ($) {
         }
 
         function th_variations_in_table() {
-            // Erste Version aktiv
+            // activate first variaton by default
             $('.variations_in_table_thumbnail:first-child').each( (index, element) => {
                 swap_variation( $(element) ) ;
             })
@@ -27,10 +27,10 @@ jQuery(function ($) {
             variation.closest('.product').find( '.variations_in_loop_thumbnail' ).removeClass('active');
             variation.addClass('active');
 
-            // Produkte ID auswechseln
+            // change id
             variation.closest('.wpt_row').data('product_id', variation_id);
 
-            // Bild auswechseln
+            // change picture
             var variation_img_src = variation.data('variation-img-src');
             var variation_img_srcset = variation.data('variation-img-srcset');
 
@@ -43,7 +43,7 @@ jQuery(function ($) {
             var product_popup = variation.closest( '.wpt_row' ).find( '.wpt_thumbnails_popup' );
             product_popup.data( 'url', variation_img_src);
 
-            // Alle Links auswechseln in loop
+            // change links in loop
             var product_links = variation.closest( '.product' ).find('a');
             product_links.attr('href', build_url(variation));
 
@@ -66,8 +66,11 @@ jQuery(function ($) {
         }
 
         function click_bind() {
+            // bind click event to all variations
+            // required because of ajax table and pagination
             $('.variations_in_table_thumbnail').unbind( "click" )
             $('.variations_in_table_thumbnail').on('click', function() {
+                // if clicked variation is the active one, open product page
                 if ( $(this).hasClass('active') ) {
                     location.href = build_url( $(this) );
                 } else {
@@ -75,6 +78,7 @@ jQuery(function ($) {
                 }
             })
 
+            // if clicked variation is the active one, open product page
             $('.variations_in_loop_thumbnail').on('click', function() {
                 if ( $(this).hasClass('active') ) {
                     location.href = build_url( $(this) );

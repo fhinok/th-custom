@@ -1,5 +1,10 @@
 <?php 
 
+/**
+ * base to add a shippment method for pickwings in the future
+ * 
+ * THIS PART IS CURRENTLY UNUSED
+ */
     if ( ! defined( 'WPINC' ) ) {
         die;
     }

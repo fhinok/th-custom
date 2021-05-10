@@ -22,6 +22,11 @@
  *
  * This offline gateway forks the WooCommerce core "Cheque" payment gateway to create another offline payment method.
  */
+
+
+/**
+ * Adds a generic payment method to use for b2b customers
+ */
  
 defined( 'ABSPATH' ) or exit;
 

@@ -1,6 +1,14 @@
 <?php
 
+/** 
+ * add custom fields to profiles
+ */
+
     defined('ABSPATH') or die("not allowed");
+
+    /**
+     * define all custom user fields and display
+     */
 
     add_action('show_user_profile', 'th_custom_user_fields');
     add_action('edit_user_profile', 'th_custom_user_fields');
@@ -81,6 +89,9 @@
     
         }
 
+    /**
+     * save custom user fields on save and update
+     */
     add_action( 'personal_options_update', 'save_extra_profile_fields' );
     add_action( 'edit_user_profile_update', 'save_extra_profile_fields' );
     add_action( 'user_register', 'save_extra_profile_fields');
@@ -104,6 +115,9 @@
 
     }
 
+    /**
+     * show custom user fields in customers account info as readonly
+     */
     add_action( 'woocommerce_edit_account_form', 'th_custom_user_fields_customer' );
 
     function th_custom_user_fields_customer( ) {
@@ -158,6 +172,9 @@
         
     }
 
+    /**
+     * allow user to save customer_shipping_desc
+     */
     add_action( 'woocommerce_save_account_details', 'th_save_account_fields' );
     function th_save_account_fields( $user_id ) {
         if ( !current_user_can( 'edit_user', $user_id ) ) {
@@ -171,8 +188,10 @@
         }
     }
 
-    // Add to REST API
-
+    
+    /**
+     * register custom user fields in rest API
+     */
     add_action( 'rest_api_init', 'th_custom_user_api' );
     function th_custom_user_api ($user) {
         // Check, if user is allowed to see meta fields
@@ -180,7 +199,7 @@
             return;
         }
 
-        // register meta fields to API
+        // register meta fields
         $meta = array('customer_number', 'customer_shipping', 'customer_shipping_desc', 'crm_contact', 'can_buy_categories');
         foreach ( $meta as $item ) {
             register_rest_field('user', $item, array(
@@ -202,7 +221,9 @@
     }
 
 
-    // API ROLES
+    /**
+     * allow user roles to be retrieved via API
+     */
 
     function th_get_user_roles( $request ) {
         $user_meta = get_userdata( $request->get_param('id') );
@@ -230,6 +251,9 @@
         return $user;
     }
 
+    /**
+     * add roles endpoint to set user roles via API
+     */
     add_action( 'rest_api_init', 'th_roles_route' );
     function th_roles_route() {
         register_rest_route( 'wc/v3', 'customers/(?P<id>\d+)/roles/', array(

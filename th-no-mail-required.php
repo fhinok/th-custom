@@ -1,4 +1,7 @@
 <?php 
+    /**
+     * Disble the need for e-mail adress when registering new users
+     */
 
     defined('ABSPATH') or die("not allowed");
 
