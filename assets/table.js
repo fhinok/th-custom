@@ -106,4 +106,12 @@ jQuery(function ($) {
         set_qty_zero()
       });
     });
+
+    // Replace category filters with product link per row
+    $(document).ready(function() {
+      $('.wpt_row').each(function() {
+        product_url = $(this).data('href');
+        $(this).find('a').attr('href', product_url);
+      })
+    });
 });
