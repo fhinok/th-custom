@@ -389,9 +389,19 @@
             }
         }
 
+        if ( $is_bio ) {
+            $is_bio = explode(", ", $is_bio);
+        }
+
         echo '<div class="zertifizierungen">';
-        if( $is_bio == "Ja") {
+        if( in_array("Bio Knospe", $is_bio) ) {
             echo '<div class="bio_logo"><a href="https://www.bio-suisse.ch" target="_blank"><img src="' . plugin_dir_url( __FILE__ ) . '/img/bio-knospe-logo.png"></a></div>';
+        }
+        if( in_array("Bio Suisse Knospe", $is_bio) ) {
+            echo '<div class="bio_logo"><a href="https://www.bio-suisse.ch" target="_blank"><img src="' . plugin_dir_url( __FILE__ ) . '/img/bio-suisse-logo.png"></a></div>';
+        }
+        if( in_array("Bio Gourmet Knospe", $is_bio) ) {
+            echo '<div class="bio_logo"><a href="https://www.bio-suisse.ch" target="_blank"><img src="' . plugin_dir_url( __FILE__ ) . '/img/bio-gourmet-logo.png"></a></div>';
         }
         if ( strtolower($is_urdinkel) == 'urdinkel' ) {
             echo '<div class="urdinkel_logo"><a href="https://www.urdinkel.ch" target="_blank"><img src="' . plugin_dir_url( __FILE__ ) .'/img/urdinkel-logo.png"</a></div>';
