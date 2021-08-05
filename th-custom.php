@@ -391,6 +391,15 @@
 
         if ( $is_bio ) {
             $is_bio = explode(", ", $is_bio);
+
+            if ( !is_array( $is_bio ) ) {
+                $arr = array();
+                $arr[] = $is_bio;
+                $is_bio = $arr;
+            }
+            
+        } else {
+            $is_bio = array();
         }
 
         echo '<div class="zertifizierungen">';
