@@ -424,20 +424,22 @@
     }
 
     /**
-     * Check if max quantity of cards in cart is reached
+     * Check if max quantity of cards in cart is reached, max per card
      */
     add_action( 'woocommerce_after_cart_table', 'th_notice_max_qty' );
     add_action( 'woocommerce_checkout_after_terms_and_conditions', 'th_notice_max_qty' );
     function th_notice_max_qty() {
         $count_qty = 0;
+        $is_allowed = 1;
         
         $restricted_category = 'karten';
         $max_num_products = get_option( 'max_cards' );
         
+
+
         foreach (WC()->cart->get_cart() as $cart_item_key=>$cart_item) {
-            $count_qty += $cart_item['quantity'];
-            
             if( has_term( $restricted_category, 'product_cat', $cart_item['product_id'] ) ) {
+                $count_qty += $cart_item['quantity'];
                 // if max is reached, disable all purchase options and show a message instead
                 if ( $count_qty > $max_num_products ) {
                     echo "<p class='woocommerce-error'>Für Bestellungen von mehr als " . $max_num_products . " Karten kontaktieren Sie bitte das Töpferhaus.</p>";
@@ -445,6 +447,7 @@
                     add_filter('woocommerce_order_button_html', '__return_false' );
                     break;
                 }
+                $count_qty = 0;
             }
         }
     }
