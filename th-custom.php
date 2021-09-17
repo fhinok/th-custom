@@ -221,7 +221,12 @@
 
     // show message for disabled products instead of add to cart button
     function message_hide_add_to_cart () {
-        echo "<p>Dieses Produkt steht momentan im Webshop nicht zum Verkauf.</p>";
+        echo "<p>Dieses Produkt steht momentan im Webshop nicht zum Verkauf.</p>
+        <p>Für eine Bestellung wenden Sie sich an <a href='mailto:bestellung@toepferhaus.ch'>bestellung@toepferhaus.ch</a> oder <a href='tel:0628376184'>062 837 61 84</a></p>";
+        
+        if ( has_term( 102, 'product_cat' ) ) {
+            echo "<p><strong>Bitte geben Sie auch bei der Bestellung per Mail an, welche Produkte Sie in der Box wünschen!</strong></p>";
+        }
     }
 
     /**
@@ -438,6 +443,7 @@
                     echo "<p class='woocommerce-error'>Für Bestellungen von mehr als " . $max_num_products . " Karten kontaktieren Sie bitte das Töpferhaus.</p>";
                     remove_action('woocommerce_proceed_to_checkout', 'woocommerce_button_proceed_to_checkout', 20);
                     add_filter('woocommerce_order_button_html', '__return_false' );
+                    break;
                 }
             }
         }
