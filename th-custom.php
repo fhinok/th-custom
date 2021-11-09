@@ -213,6 +213,7 @@
         // if product is not in disabled categorie, disable purchasing
         if( empty($deactivate_categories) || !has_term( $deactivate_categories, 'product_cat', $product->id ) ) {
             add_action('woocommerce_single_product_summary', 'message_hide_add_to_cart');
+            remove_action( 'woocommerce_single_variation', 'woocommerce_single_variation_add_to_cart_button', 20 );
             return false;
         } else {
             return $return_val;
@@ -221,8 +222,20 @@
 
     // show message for disabled products instead of add to cart button
     function message_hide_add_to_cart () {
+        $mail = 'bestellung@toepferhaus.ch';
+        $phone = '062 837 61 84';
+        
+        if( has_term('frischprodukte', 'product_cat', $product->id) ) {
+            $phone = '062 837 60 10';
+        }
+
+        if( has_term('karten', 'product_cat', $product->id) ) {
+            $mail = 'werkatelier@toepferhaus.ch';
+            $phone = '062 837 60 19';
+        }
+
         echo "<p>Dieses Produkt steht momentan im Webshop nicht zum Verkauf.</p>
-        <p>Für eine Bestellung wenden Sie sich an <a href='mailto:bestellung@toepferhaus.ch'>bestellung@toepferhaus.ch</a> oder <a href='tel:0628376184'>062 837 61 84</a></p>";
+        <p>Für eine Bestellung wenden Sie sich an <a href='mailto:{$mail}'>{$mail}</a> oder <a href='tel:{$phone}'>{$phone}</a></p>";
         
         if ( has_term( 102, 'product_cat' ) ) {
             echo "<p><strong>Bitte geben Sie auch bei der Bestellung per Mail an, welche Produkte Sie in der Box wünschen!</strong></p>";
