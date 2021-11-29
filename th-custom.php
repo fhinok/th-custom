@@ -229,7 +229,7 @@
             $phone = '062 837 60 10';
         }
 
-        if( has_term('karten', 'product_cat', $product->id) ) {
+        if( has_term('karten', 'product_cat', $product->id) or has_term('patabee', 'product_cat', $product->id)) {
             $mail = 'werkatelier@toepferhaus.ch';
             $phone = '062 837 60 19';
         }
