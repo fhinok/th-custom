@@ -18,6 +18,7 @@ jQuery(function ($) {
 
         function swap_variation( variation ) {
             var variation_id = variation.data( 'variation-id' );
+            var variation_sku = variation.parents('.wpt_variations').data( 'sku' );
             var product_imgs = [variation.closest( '.wpt_row' ).find( '.wpt_thumbnails_popup img' ), variation.closest( '.product' ).find( '.wp-post-image' )];
             $.each(product_imgs, (key, product_img) => {
                 $(product_img).addClass('loading');
@@ -27,8 +28,10 @@ jQuery(function ($) {
             variation.closest('.product').find( '.variations_in_loop_thumbnail' ).removeClass('active');
             variation.addClass('active');
 
-            // change id
+            // change sku and id
             variation.closest('.wpt_row').data('product_id', variation_id);
+            variation.closest('.wpt_row').attr('data-sku', variation_sku);
+
 
             // change picture
             var variation_img_src = variation.data('variation-img-src');

@@ -57,14 +57,22 @@ jQuery(function ($) {
       function get_cart_qty() {
         // get contents of cart
         var cart = JSON.parse(sessionStorage.getItem( wc_cart_fragments_params.fragment_name ));
-        cart_json = JSON.parse(cart.wpt_per_product)
+        cart_json = {}
+        cart_html = $.parseHTML(cart['div.widget_shopping_cart_content']) 
+
+        $(cart_html).find('li').each(function(key, value) {
+          sku = $(value).find('.remove_from_cart_button').data('product_sku');
+          qty = $(value).find('.quantity')[0].childNodes[0].nodeValue
+          qty = parseInt(qty)
+          cart_json[sku] = qty
+        });
         
         // find matching qty input and set to value
         $.each(cart_json, (key, val) => {
-          var qty_container = $("[data-product_id="+key+"]").find('.qib-container');
+          var qty_container = $("[data-sku="+key+"]").find('.qib-container');
           qty_container.addClass('loading');
 
-          $("[data-product_id="+key+"]").find('.qty').val(val);
+          $("[data-sku="+key+"]").find('.qty').val(val);
 
           qty_container.removeClass('loading');
         })
@@ -75,8 +83,18 @@ jQuery(function ($) {
       
       function set_qty_zero() {
         // get the cart contents after the item was removed
-        var cart_new = JSON.parse(sessionStorage.getItem( wc_cart_fragments_params.fragment_name ));
-        cart_new = JSON.parse(cart_new.wpt_per_product);
+        // var cart_new = JSON.parse(sessionStorage.getItem( wc_cart_fragments_params.fragment_name ));
+        // cart_new = JSON.parse(cart_new.wpt_per_product);
+        var cart = JSON.parse(sessionStorage.getItem( wc_cart_fragments_params.fragment_name ));
+        cart_new = {}
+        cart_html = $.parseHTML(cart['div.widget_shopping_cart_content']) 
+
+        $(cart_html).find('li').each(function(key, value) {
+          sku = $(value).find('.remove_from_cart_button').data('product_sku');
+          qty = $(value).find('.quantity')[0].childNodes[0].nodeValue
+          qty = parseInt(qty)
+          cart_new[sku] = qty
+        });
 
         // remove all items from cart_old which are still in the cart
         $.each(cart_new, (item) => {
@@ -86,11 +104,11 @@ jQuery(function ($) {
         // remaining items in cart_old have to be the removed ones 
         $.each(cart_old, (item) => {
           // set qty to zero
-          $("[data-product_id="+item+"]").find('.qib-container').addClass('loading');
+          $("[data-sku="+item+"]").find('.qib-container').addClass('loading');
 
-          $("[data-product_id="+item+"]").find('.qty').val(0);
+          $("[data-sku="+item+"]").find('.qty').val(0);
 
-          $("[data-product_id="+item+"]").find('.qib-container').removeClass('loading');
+          $("[data-sku="+item+"]").find('.qib-container').removeClass('loading');
         })
         // store cart_new to cart_old
         cart_old = cart_new;
