@@ -447,7 +447,11 @@
         
         $restricted_category = 'karten';
         $max_num_products = get_option( 'max_cards' );
-        
+        $min_num_products = 3;
+
+        $b2b_roles = th_return_option( 'b2b_roles' );
+        $user = wp_get_current_user();
+        $roles = ( array ) $user->roles;
 
 
         foreach (WC()->cart->get_cart() as $cart_item_key=>$cart_item) {
@@ -459,6 +463,15 @@
                     remove_action('woocommerce_proceed_to_checkout', 'woocommerce_button_proceed_to_checkout', 20);
                     add_filter('woocommerce_order_button_html', '__return_false' );
                     break;
+                }
+
+                if( count(array_intersect( $b2b_roles, $roles ) ) ) {
+                    if ( $count_qty < $min_num_products ) {
+                        echo "<p class='woocommerce-error'>Beachte Sie bitte die Mindestbestellmenge von " . $min_num_products . " Stück pro Karte</p>";
+                        remove_action('woocommerce_proceed_to_checkout', 'woocommerce_button_proceed_to_checkout', 20);
+                        add_filter('woocommerce_order_button_html', '__return_false' );
+                        break;
+                    }
                 }
                 $count_qty = 0;
             }
