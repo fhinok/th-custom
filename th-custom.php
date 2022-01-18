@@ -467,7 +467,7 @@
 
                 if( count(array_intersect( $b2b_roles, $roles ) ) ) {
                     if ( $count_qty < $min_num_products ) {
-                        echo "<p class='woocommerce-error'>Beachte Sie bitte die Mindestbestellmenge von " . $min_num_products . " Stück pro Karte</p>";
+                        echo "<p class='woocommerce-error'>Beachten Sie bitte die Mindestbestellmenge von " . $min_num_products . " Stück pro Karte</p>";
                         remove_action('woocommerce_proceed_to_checkout', 'woocommerce_button_proceed_to_checkout', 20);
                         add_filter('woocommerce_order_button_html', '__return_false' );
                         break;
